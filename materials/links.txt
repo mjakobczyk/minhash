@@ -1,0 +1,3 @@
+- https://software.intel.com/sites/landingpage/IntrinsicsGuide/#
+- https://github.com/ermig1979/Simd
+- https://github.com/aff3ct/MIPP
