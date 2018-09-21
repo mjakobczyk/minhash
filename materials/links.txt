@@ -1,3 +1,14 @@
+Wykorzystanie Intel Intrinsics
 - https://software.intel.com/sites/landingpage/IntrinsicsGuide/#
+
+SIMD
 - https://github.com/ermig1979/Simd
+
+MIPP
 - https://github.com/aff3ct/MIPP
+
+How to use static library
+- https://www.geeksforgeeks.org/static-vs-dynamic-libraries/ 
+
+Intel link
+- https://software.intel.com/en-us/node/524399

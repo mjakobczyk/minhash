@@ -1,0 +1,50 @@
+Biblioteka do realizacji operacji MinHash z wykorzystaniem rozszerzeñ SIMD.
+1. Zaimplementowana w c++,
+
+2. Wieloplatformowa (windows/linux),
+- ma byæ kompilowalna pod windowsem i pod systemem linuksowym
+
+3. Obs³uga SSE2, AVX, AVX2 (wykrywanie dostêpnych instrukcji, ka¿dy plik CPP kompilowany z innymi parametrami).
+- d³ugoœæ wektora nale¿y uzale¿niæ od dostêpnych rozszerzeñ
+- musi byæ jakaœ funkcja wykrywaj¹ca dostêpne rozszerzenia
+- w zale¿noœci od tego co jest dostêpne to wykorzystujemy to rozszerzenie
+
+4. Wykorzystanie Intel Intrinsics (https://software.intel.com/sites/landingpage/IntrinsicsGuide/#)
+- jest zestaw dostêpnych technologii
+- dla danej technologii jest zdefiniowanuy typ
+- nale¿y sprawdziæ co to za typ i co dana instrukcja dok³adnie robi
+- ¿eby z tego korzystaæ nale¿y zincludowaæ odpowiedni plik i to jest tyle
+- nie korzystamy z ¿adnych innych zewnêtrznych bibliotek
+- instrukcje powinny dzia³aæ pod Intelem i pod AMD
+
+5. Na pocz¹tek operacje na argumentach 64-bit (w kolejnym mejlu).
+- 
+
+6. Œrodowisko testowe:
+ a) zaimplementowaæ wariant skalarny,
+ b) porównaæ poprawnoœæ,
+ c) pomierzyæ czasy wykonania
+- napisaæ prost¹ aplikacjê testuj¹c¹ zaimplementowan¹ bibliotekê
+
+7. Byæ mo¿e warto wykorzystaæ szablony
+- zrobiæ typ wyliczeniowy, który reprezentuje mo¿liwe zestawy instrukcji
+- w argumentach szablonu bêdzie podawany sse2, avx, avx2 i od ka¿dego implementacja
+
+8. Obiektowoœæ - ok, polimorfizm - na wy¿szym poziomie.
+- polimorficzna mo¿na przetwarzaæ ca³¹ tablicê
+- z za³o¿enia funkcja bêdzie siê wywo³ywaæ miliony razy, wiêc musi byæ inlnie
+- polimorfizm bêdzie dok³ada³ pewne narzuty, nawet parenaœcie % gorszego czasu wykonania
+- klasy jak najbardziej, obiektowo mo¿na rozwi¹zaæ architekturê klas na wy¿szym poziomie
+- klasy bêd¹ reprezentowa³y hashowania dla ró¿nych zestawów instrukcji
+- gdyby by³a funkcja przyjmuj¹ca jako argument tablicê milion argumentów to to ju¿
+  mo¿e byæ polimorficzne
+- na ni¿szym poziomie, gdzie dziedziczy siê tego hasha ju¿ nie powinno byæ polmorfizmu
+- dla ka¿dego z wariantu statycznie musi byæ okreœlony która implementacja bêdzie wywo³ywana
+- ka¿dy wariant implementacji bêdzie musia³ byæ w innym pliku cpp - sse, avx, avx2 itd. 
+  i inne opcje kompilacji bêd¹ musia³y byæ zaznaczane
+- tam gdzie bêdzie sse to zaznaczy siê flagê, ¿e ono mo¿e byæ wykorzystane
+- na pocz¹tek w œrodowisku testowym napisaæ prosty program gdzie bêd¹ sumowane 2 tablice
+  albo podnoszone do kwadratu
+- potem z funkcji, która podnosi do kwadratu zrobi siê funkcjê haszuj¹c¹
+- architektura klas mo¿e pozostaæ ta sama, wystarczy podmieniæ implementacje
+- na bie¿¹co kontrolowaæ kompilowalnoœæ na linuksie, proponowany jest Ubuntu
