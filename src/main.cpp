@@ -3,7 +3,7 @@
 int main()
 {
 	OSDetector osDetector;
-	osDetector.checkOs();
+	osDetector.checkOS();
 	
 	return 0;
 }

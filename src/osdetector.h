@@ -4,13 +4,15 @@
 enum OSType
 {
 	WINDOWS = 0,
-	LINUX
-}
+	LINUX,
+	MACOS,
+	UNKNOWN
+};
 
 class OSDetector
 {
 public:
 	OSType checkOS();
-}
+};
 
 #endif
