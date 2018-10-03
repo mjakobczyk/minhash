@@ -4,18 +4,17 @@
 
 OSType OSDetector::checkOS()
 {
-	std::cout << "Detecting operating system...";
 	std::cout << "Boost library detected: ";	
 
 	if(BOOST_OS_WINDOWS)
 	{
-        	std::cout << "Windows" << std::endl;
+        std::cout << "Windows" << std::endl;
 		return OSType::WINDOWS;
-    	}
+    }
 	else if(BOOST_OS_LINUX)
 	{
-        	std::cout << "Linux" << std::endl;
-    		return OSType::LINUX;
+        std::cout << "Linux" << std::endl;
+    	return OSType::LINUX;
 	}
 	else if(BOOST_OS_MACOS)
 	{	
@@ -24,7 +23,7 @@ OSType OSDetector::checkOS()
 	}
 	else
 	{
-        	std::cout << "Other" << std::endl;
+        std::cout << "Unknown" << std::endl;
 		return OSType::UNKNOWN;
 	}	
 };
