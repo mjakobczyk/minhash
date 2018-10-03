@@ -8,9 +8,9 @@
 */
 enum Extension
 {
-    AVX = 0,
-    SSE,
-    SSE2
+    SSE2 = 0,
+    AVX,
+    AVX2
 };
 
 /*
@@ -25,9 +25,9 @@ public:
 
 private:
     bool isSIMDAvailable();
-    bool isAVXAvailable();
-    bool isSSEAvailable();
     bool isSSE2Available();
+    bool isAVXAvailable();
+    bool isAVX2Available();
 };
 
 #endif
