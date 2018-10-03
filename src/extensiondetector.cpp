@@ -5,11 +5,13 @@
 
 std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
 {
-    std::cout << "Checking available extensions... ";
+    std::cout << "Checking SIMD... " << std::endl;
     std::vector<Extension> availableExtensions;
     
     if (isSIMDAvailable())
     {
+        std::cout << "SIMD detected! Checking available extensions..." << std::endl;
+
         if (isAVXAvailable())
         {
                     std::cout << "AVX is available!" << std::endl;
@@ -42,24 +44,26 @@ std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
 
         }
     }
+    else
+    {
+        std::cout << "SIMD not detected!" << std::endl;
+    }
 
     return availableExtensions;
 }
 
 bool ExtensionDetector::isSIMDAvailable()
 {
-    #if defined(BOOST_HW_SIMD_AVAILABLE)
-        std::cout << "SIMD detected!" << std::endl;
+    #if defined(BOOST_HW_SIMD_X86_AVAILABLE)
         return true;
     #endif
 
-    std::cout << "SIMD not detected!" << std::endl;
     return false;
 }
 
 bool ExtensionDetector::isAVXAvailable()
 {
-    #if BOOST_HW_SIMD_X86 == BOOST_HW_SIMD_X86_AVX_VERSION
+    #if BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_AVX_VERSION    
         return true;
     #endif
 
@@ -68,7 +72,7 @@ bool ExtensionDetector::isAVXAvailable()
 
 bool ExtensionDetector::isSSEAvailable()
 {
-    #if BOOST_HW_SIMD_X86 == BOOST_HW_SIMD_X86_SSE_VERSION
+    #if BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_SSE_VERSION
         return true;
     #endif
 
@@ -77,7 +81,7 @@ bool ExtensionDetector::isSSEAvailable()
 
 bool ExtensionDetector::isSSE2Available()
 {
-    #if BOOST_HW_SIMD_X86 == BOOST_HW_SIMD_X86_SSE2_VERSION
+    #if BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_SSE2_VERSION
         return true;
     #endif
 

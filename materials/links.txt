@@ -12,3 +12,6 @@ How to use static library
 
 Intel link
 - https://software.intel.com/en-us/node/524399
+
+- Jak dodac biblioteke Boost lub inna statyczna biblioteke do Makefile
+https://stackoverflow.com/questions/1305530/including-boost-libraries-in-make-files
