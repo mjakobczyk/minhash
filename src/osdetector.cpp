@@ -4,7 +4,7 @@
 
 OSType OSDetector::checkOS()
 {
-	std::cout << "Boost library detected: ";	
+	std::cout << "Operating system: ";	
 
 	if(BOOST_OS_WINDOWS)
 	{

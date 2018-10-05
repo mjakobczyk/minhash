@@ -8,9 +8,10 @@ ROOT_BOOST := $(ROOT_DIR)libs/boost_1_68_0
 CXX=g++
 CXXFLAGS=-std=c++11
 SIMD=-O3 -march=native
+TARGET=-o
 
-output: main.o osdetector.o extensiondetector.o
-	$(CXX) main.o osdetector.o extensiondetector.o -o output
+output: main.o osdetector.o extensiondetector.o filemanager.o
+	$(CXX) main.o osdetector.o extensiondetector.o filemanager.o $(TARGET) output
 	
 main.o: main.cpp
 	$(CXX) -c main.cpp
@@ -20,6 +21,9 @@ osdetector.o: osdetector.cpp osdetector.h
 
 extensiondetector.o: extensiondetector.cpp extensiondetector.h
 	$(CXX) -I $(ROOT_BOOST) $(CXXFLAGS) $(SIMD) -c extensiondetector.cpp
+
+filemanager.o: filemanager.cpp filemanager.h
+	$(CXX) $(CXXFLAGS) -c filemanager.cpp
 	
 clean:
-	rm *.o
+	rm -f *.o

@@ -1,11 +1,12 @@
 #ifndef FILEMANAGER_H_
 #define FILEMANAGER_H_
 #include <string>
+#include <vector>
 
 class FileManager
 {
-    const string fileName;
-    std::vector<string> data;
+    const std::string fileName;
+    std::vector<std::string> data;
 
 public:
     FileManager(const std::string &);

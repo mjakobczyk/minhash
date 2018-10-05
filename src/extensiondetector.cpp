@@ -5,12 +5,13 @@
 
 std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
 {
-    std::cout << "Checking SIMD... " << std::endl;
+    std::cout << "Checking SIMD... ";
     std::vector<Extension> availableExtensions;
     
     if (isSIMDAvailable())
     {
-        std::cout << "SIMD detected! Checking available extensions..." << std::endl;
+        std::cout << "SIMD detected! " << std::endl;
+        std::cout << "Checking available extensions..." << std::endl;
 
         if (isSSE2Available())
         {
@@ -23,7 +24,6 @@ std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
                     std::cout << "SSE2 is not available!" << std::endl;
 
         }
-
         if (isAVXAvailable())
         {
                     std::cout << "AVX is available!" << std::endl;
@@ -42,7 +42,6 @@ std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
         else
         {
                     std::cout << "AVX2 is not available!" << std::endl;
-
         }
     }
     else

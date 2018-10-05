@@ -3,14 +3,14 @@
 #include <fstream>
 #include <string>
 
-FileManager::FileManager(const std::string & fileName_) : fileName(&fileName_) {}
+FileManager::FileManager(const std::string & fileName_) : fileName(fileName_) {}
 
 bool FileManager::readDataFromFile()
 {
 	std::ifstream inputFile;
 	inputFile.open(this->fileName, std::ios::in);
 
-	if (!inputFile.good()) // Jeżeli otwieranie się nie powiodło
+	if (!inputFile.good())
 	{
 		std::cout << "Error with file in directory:" << std::endl;
 		return false;
@@ -21,7 +21,7 @@ bool FileManager::readDataFromFile()
 	while (!inputFile.eof())
 	{
 		std::string line;
-		std::getline(inputFile, line, '\n'); // Read all line until '\n' character
+		std::getline(inputFile, line, '\n');
 
 		if (!line.length())
 		{
