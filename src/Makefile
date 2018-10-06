@@ -3,15 +3,15 @@
 ROOT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 # Directory of Boost library
-ROOT_BOOST := $(ROOT_DIR)libs/boost_1_68_0
+ROOT_BOOST := $(ROOT_DIR)../lib/boost_1_68_0
 
 CXX=g++
 CXXFLAGS=-std=c++11
 SIMD=-O3 -march=native
-TARGET=-o
+TARGET=program
 
-output: main.o osdetector.o extensiondetector.o filemanager.o
-	$(CXX) main.o osdetector.o extensiondetector.o filemanager.o $(TARGET) output
+$(TARGET): main.o osdetector.o extensiondetector.o filemanager.o
+	$(CXX) main.o osdetector.o extensiondetector.o filemanager.o -o $(TARGET)
 	
 main.o: main.cpp
 	$(CXX) -c main.cpp
@@ -27,3 +27,4 @@ filemanager.o: filemanager.cpp filemanager.h
 	
 clean:
 	rm -f *.o
+	

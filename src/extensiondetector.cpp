@@ -5,48 +5,47 @@
 
 std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
 {
-    std::cout << "Checking SIMD... ";
+    std::cout << "> [SIMD] ";
     std::vector<Extension> availableExtensions;
     
     if (isSIMDAvailable())
     {
-        std::cout << "SIMD detected! " << std::endl;
-        std::cout << "Checking available extensions..." << std::endl;
+        std::cout << "available" << std::endl;
 
         if (isSSE2Available())
         {
-                    std::cout << "SSE2 is available!" << std::endl;
+                    std::cout << ">>> [SSE2] available" << std::endl;
                     availableExtensions.push_back(Extension::SSE2);
 
         }
         else
         {
-                    std::cout << "SSE2 is not available!" << std::endl;
+                    std::cout << ">>> [SSE2] not available" << std::endl;
 
         }
         if (isAVXAvailable())
         {
-                    std::cout << "AVX is available!" << std::endl;
+                    std::cout << ">>> [AVX] available" << std::endl;
                     availableExtensions.push_back(Extension::AVX);
         }
         else
         {
-                    std::cout << "AVX is not available!" << std::endl;
+                    std::cout << ">>> [AVX] not available" << std::endl;
         }
         if (isAVX2Available())
         {
-                    std::cout << "AVX2 is available!" << std::endl;
+                    std::cout << ">>> [AVX2] available" << std::endl;
                     availableExtensions.push_back(Extension::AVX2);
 
         }
         else
         {
-                    std::cout << "AVX2 is not available!" << std::endl;
+                    std::cout << ">>> [AVX2] not available" << std::endl;
         }
     }
     else
     {
-        std::cout << "SIMD not detected!" << std::endl;
+        std::cout << "not available" << std::endl;
     }
 
     return availableExtensions;
