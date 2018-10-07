@@ -1,0 +1,39 @@
+CMake
+
+Jak powinno się używać CMake w projektach dla różnej organizacji kodu?
+Przykład: https://stackoverflow.com/questions/13521618/c-project-organisation-with-gtest-cmake-and-doxygen
+
+"
+    The basic directory layout is the following (content of units is detailed later on):
+    project
+    ├── CMakeLists.txt
+    ├── UnitA
+    ├── UnitB
+    ├── GroupA
+    │   └── CMakeLists.txt
+    │   └── GroupB
+    │       └── CMakeLists.txt
+    │       └── UnitC
+    │       └── UnitD
+    │   └── UnitE
+
+    project/CMakeLists.txt could contain the following:
+
+    cmake_minimum_required(VERSION 3.0.2)
+    project(project)
+    enable_testing() # This will be necessary for testing (details below)
+
+    add_subdirectory(UnitA)
+    add_subdirectory(UnitB)
+    add_subdirectory(GroupA)
+
+    and project/GroupA/CMakeLists.txt:
+
+    add_subdirectory(GroupB)
+    add_subdirectory(UnitE)
+
+    and project/GroupB/CMakeLists.txt:
+
+    add_subdirectory(UnitC)
+    add_subdirectory(UnitD)
+"

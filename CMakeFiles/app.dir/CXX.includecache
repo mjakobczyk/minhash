@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/Repozytoria/MinHash/src/main.cpp
+osdetector.h
+D:/Repozytoria/MinHash/src/osdetector.h
+extensiondetector.h
+D:/Repozytoria/MinHash/src/extensiondetector.h
+iostream
+-
+
+include/extensiondetector.h
+vector
+-
+
+include/osdetector.h
+

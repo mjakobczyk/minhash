@@ -1,0 +1,3 @@
+D:/Repozytoria/MinHash/CMakeFiles/app.dir
+D:/Repozytoria/MinHash/CMakeFiles/edit_cache.dir
+D:/Repozytoria/MinHash/CMakeFiles/rebuild_cache.dir
