@@ -1,4 +1,7 @@
+# Last stable version of CMake set as 3.12
 cmake_minimum_required(VERSION 3.12)
+
+# Name of the project is minhash
 project (minhash)
 
 # Set the output folder where your program will be created
@@ -7,44 +10,41 @@ project (minhash)
 # set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 # set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
+# Boost variables
+# Indicates Boost root directory containg include and lib directories
 set(BOOST_ROOT C:/local/boost-build)
+# Indicates Boost include directory containg .h / .hpp files
 set(BOOST_INCLUDEDIR C:/local/boost-build/include)
+# Indicates Boost include directory containg .a files
 set(BOOST_LIBRARYDIR C:/local/boost-build/lib)
 
-set(Boost_DEBUG 1)
-set(Boost_USE_STATIC_LIBS        ON)  # only find static libs
-set(Boost_USE_DEBUG_LIBS        OFF)  # ignore debug libs and 
-set(Boost_USE_RELEASE_LIBS       ON)  # only find release libs 
-set(Boost_USE_MULTITHREADED      ON)
-set(Boost_USE_STATIC_RUNTIME    OFF) 
-set(Boost_ADDITIONAL_VERSIONS   OFF)
-set(Boost_NO_SYSTEM_PATHS       OFF)
-set(Boost_DEBUG                  ON)
+set(Boost_DEBUG                  ON) # Debug mode
+set(Boost_USE_STATIC_LIBS        ON) # Only find static libs
+set(Boost_USE_RELEASE_LIBS       ON) # Only find release libs 
+set(Boost_USE_MULTITHREADED      ON) # Use multithreaded libs
+set(Boost_USE_DEBUG_LIBS        OFF) # Ignore debug libs
+set(Boost_USE_STATIC_RUNTIME    OFF) # Use libs linked statically
+set(Boost_ADDITIONAL_VERSIONS   OFF) # Boost versions in diff locations
 
+# Find Boost package with version 1_68_0
 find_package(
     Boost 
     1.68.0
 )
 
 if(Boost_FOUND)   
-    message("############################################")
-    message ("> Boost library was found!")
-    message("############################################")
+    message("##########################################")
+    message("#       Boost library was found!         #")
+    message("##########################################")
 
     include_directories(include)
-    include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-
-    # file(GLOB SOURCES "src/main.cpp")
     file(GLOB SOURCES "src/*.cpp")
-
     add_executable(app ${SOURCES})
 
+    include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
     target_link_libraries(app${Boost_LIBRARIES})
 else()
     message("############################################")
-    message ("> Boost library was not found!")
-    message(">>> BOOST_ROOT \t = \t" ${BOOST_ROOT})
-    message(">>> BOOST_INCLUDEDIR = \t" ${BOOST_INCLUDEDIR})
-    message(">>> BOOST_LIBRARYDIR = \t" ${BOOST_LIBRARYDIR})
+    message("#       Boost library was not found!       #")
     message("############################################")
 endif()
