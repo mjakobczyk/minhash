@@ -38,10 +38,10 @@ if(Boost_FOUND)
 
     include_directories(include)
     file(GLOB SOURCES "src/*.cpp")
-    add_executable(minhash ${SOURCES})
+    add_executable(program ${SOURCES})
 
     include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-    target_link_libraries(minhash ${Boost_LIBRARIES})
+    target_link_libraries(program ${Boost_LIBRARIES})
 else()
     message("############################################")
     message("#       Boost library was NOT found!       #")
