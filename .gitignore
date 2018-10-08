@@ -32,6 +32,7 @@
 *.app
 
 # VSCode
+.vscode
 
 # CMake
 *.cmake
