@@ -12,11 +12,11 @@ project (minhash)
 
 # Boost variables
 # Indicates Boost root directory containg include and lib directories
-set(BOOST_ROOT C:/local/boost-build)
+# set(BOOST_ROOT C:/local/boost-build)
 # Indicates Boost include directory containg .h / .hpp files
-set(BOOST_INCLUDEDIR C:/local/boost-build/include)
+# set(BOOST_INCLUDEDIR C:/local/boost-build/include)
 # Indicates Boost include directory containg .a files
-set(BOOST_LIBRARYDIR C:/local/boost-build/lib)
+# set(BOOST_LIBRARYDIR C:/local/boost-build/lib)
 
 set(Boost_DEBUG                  ON) # Debug mode
 set(Boost_USE_STATIC_LIBS        ON) # Only find static libs
@@ -26,10 +26,9 @@ set(Boost_USE_DEBUG_LIBS        OFF) # Ignore debug libs
 set(Boost_USE_STATIC_RUNTIME    OFF) # Use libs linked statically
 set(Boost_ADDITIONAL_VERSIONS   OFF) # Boost versions in diff locations
 
-# Find Boost package with version 1_68_0
+# Find Boost package
 find_package(
-    Boost 
-    1.68.0
+    Boost
 )
 
 if(Boost_FOUND)   
@@ -39,12 +38,12 @@ if(Boost_FOUND)
 
     include_directories(include)
     file(GLOB SOURCES "src/*.cpp")
-    add_executable(app ${SOURCES})
+    add_executable(minhash ${SOURCES})
 
     include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-    target_link_libraries(app${Boost_LIBRARIES})
+    target_link_libraries(minhash ${Boost_LIBRARIES})
 else()
     message("############################################")
-    message("#       Boost library was not found!       #")
+    message("#       Boost library was NOT found!       #")
     message("############################################")
 endif()

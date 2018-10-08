@@ -31,7 +31,44 @@ boost-build
 └───lib
 ```
 
-## Requirements
+## Installation
+
+### Windows 10
+
+Follow instructions on official sites linked in section **Getting started**.
+
+### MacOS
+
+Use *homebrew* for downloading dependencies.
+
+```bash
+brew install cmake
+```
+
+```bash
+brew install boost
+```
+
+Default download location should be: ```/usr/local/Cellar/boost/1.67.0_1```
+
+You can check your extensions using this command to ensure that the output of application is reasonable:
+```sysctl -a | grep machdep.cpu.features```
+
+## Run
+
+First, clone the repository using https or SSH. Example:
+
+```git clone https://github.com/mjakobczyk/minhash.git```
+
+Next, move to the place where project was cloned. In the main directory where **CMakeLists.txt** file is type the following:
+
+```cmake .; make```
+
+Finally, run the application using generated target file:
+
+``` ./minhash```
+
+## Project requirements
 
 1. Implementation in C++
 2. Multiplatform (Windows, Linux)
