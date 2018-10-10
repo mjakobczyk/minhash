@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 3.12)
 # Name of the project is minhash
 project (minhash)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 # Set the output folder where your program will be created
 # set(CMAKE_BINARY_DIR ${{PROJECT_SOURCE_DIR}/bin)
 # set(CMAKE_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
