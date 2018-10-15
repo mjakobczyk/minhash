@@ -13,8 +13,15 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 # set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 include_directories(include)
-file(GLOB SOURCES "src/*.cpp")
-add_executable(program ${SOURCES})
 
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-target_link_libraries(program ${Boost_LIBRARIES})
+set(SOURCES 
+    src/main.cpp
+    src/extensiondetector.cpp
+    src/osdetector.cpp
+    src/filemanager.cpp
+    src/instrset_detect.cpp # GNU license
+    src/simdpoc.cpp # DELETE only for testing purposes
+)
+# file(GLOB SOURCES "src/*.cpp")
+
+add_executable(program ${SOURCES})

@@ -7,7 +7,7 @@ https://github.com/ermig1979/Simd
 - MIPP
 https://github.com/aff3ct/MIPP
 
-- How to use static library
+- Static vs Dynamic library
 https://www.geeksforgeeks.org/static-vs-dynamic-libraries/ 
 
 - Intel link
@@ -19,3 +19,5 @@ https://stackoverflow.com/questions/1305530/including-boost-libraries-in-make-fi
 - Guide to predefined macros
 https://blog.kowalczyk.info/article/j/guide-to-predefined-macros-in-c-compilers-gcc-clang-msvc-etc..html
 
+- How to develop static library
+https://www.youtube.com/watch?v=vwt-qdJFMjM

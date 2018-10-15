@@ -1,0 +1,9 @@
+- Download Latex for your platform
+https://www.latex-project.org/get/
+  Adviced for Windows:
+  https://miktex.org/
+  Adviced for MacOs:
+  www.tug.org/mactex/
+
+- Download text editor TeXstudio:
+https://www.texstudio.org/
