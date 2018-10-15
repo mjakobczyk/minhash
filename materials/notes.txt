@@ -1,0 +1,15 @@
+15.10.2018
+- Biblioteka Boost nie nadaje się do pracy
+- jest zbyt dużo pracy w celu jej poprawnej konfiguracji z każdym systemem operacyjnym
+- CMake nie zawsze wykrywa Boosta, muszą być spełniony kroki, które nie są nigdzie udokumentowane
+- ostatnia stabilna wersja na Windowsa na chwilę obecną to 1_68_0, przy czym homebrew na MacOS wspiera
+  1_67_0 co już może być problemem przy kompilacji projektu z wykorzystaniem różnych kompilatorów
+- Boost bardzo dużo waży
+- na Windowsie należy ręcznie zbudować biblioteki ze źródeł, które się chce wykorzystywać (domyślnie
+  i tak buduje wszystko, co trochę trwa)
+- nie jest wiarygodny, ponieważ wyrzuca informacje o braku wsparcia dla AVX i AVX2 w procesorach, które
+  to wsparcie mają, co oznacza niepoprawne działanie flag takich jak:
+  BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_AVX_VERSION
+- wszystkie dependencje z boostem zostaną usunięte, podobnie stanie się w README
+- podobnie niewiarygodna jest instrukcja na MacOS wykrywająca rozszerzenia:
+  sysctl -a | grep machdep.cpu.features 
