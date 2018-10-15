@@ -1,17 +1,21 @@
-Wykorzystanie Intel Intrinsics
-- https://software.intel.com/sites/landingpage/IntrinsicsGuide/#
+- Wykorzystanie Intel Intrinsics
+https://software.intel.com/sites/landingpage/IntrinsicsGuide/#
 
-SIMD
-- https://github.com/ermig1979/Simd
+- SIMD
+https://github.com/ermig1979/Simd
 
-MIPP
-- https://github.com/aff3ct/MIPP
+- MIPP
+https://github.com/aff3ct/MIPP
 
-How to use static library
-- https://www.geeksforgeeks.org/static-vs-dynamic-libraries/ 
+- How to use static library
+https://www.geeksforgeeks.org/static-vs-dynamic-libraries/ 
 
-Intel link
-- https://software.intel.com/en-us/node/524399
+- Intel link
+https://software.intel.com/en-us/node/524399
 
 - Jak dodac biblioteke Boost lub inna statyczna biblioteke do Makefile
 https://stackoverflow.com/questions/1305530/including-boost-libraries-in-make-files
+
+- Guide to predefined macros
+https://blog.kowalczyk.info/article/j/guide-to-predefined-macros-in-c-compilers-gcc-clang-msvc-etc..html
+

@@ -1,76 +1,73 @@
 #include "extensiondetector.h"
 #include <iostream>
 #include <vector>
+#include "instrset.h"
 
 std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
 {
     std::cout << "> [SIMD]:" << std::endl;
     std::vector<Extension> availableExtensions;
+
+    int extensionSupport = instrset_detect();
     
-    if (isSSE2Available())
+    if (isSSE2Available(extensionSupport))
     {
-                std::cout << ">>> [SSE2] available" << std::endl;
-                availableExtensions.push_back(Extension::SSE2);
+        std::cout << ">>> [SSE2] available" << std::endl;
+        availableExtensions.push_back(Extension::SSE2);
     }
     else
     {
-                std::cout << ">>> [SSE2] not available" << std::endl;
+        std::cout << ">>> [SSE2] not available" << std::endl;
 
     }
-    if (isAVXAvailable())
+    if (isAVXAvailable(extensionSupport))
     {
-                std::cout << ">>> [AVX]  available" << std::endl;
-                availableExtensions.push_back(Extension::AVX);
+        std::cout << ">>> [AVX]  available" << std::endl;
+        availableExtensions.push_back(Extension::AVX);
     }
     else
     {
-                std::cout << ">>> [AVX]  not available" << std::endl;
+        std::cout << ">>> [AVX]  not available" << std::endl;
     }
-    if (isAVX2Available())
+    if (isAVX2Available(extensionSupport))
     {
-                std::cout << ">>> [AVX2] available" << std::endl;
-                availableExtensions.push_back(Extension::AVX2);
+        std::cout << ">>> [AVX2] available" << std::endl;
+        availableExtensions.push_back(Extension::AVX2);
     }
     else
     {
-                std::cout << ">>> [AVX2] not available" << std::endl;
+        std::cout << ">>> [AVX2] not available" << std::endl;
     }
 
     return availableExtensions;
 }
 
-bool ExtensionDetector::isSIMDAvailable()
+bool ExtensionDetector::isSSE2Available(int extensionSupport)
 {
-    // #if defined(BOOST_HW_SIMD_X86_AVAILABLE)
-    //     return true;
-    // #endif
+    if (extensionSupport >=2)
+    {
+        return true;
+    }
 
     return false;
 }
 
-bool ExtensionDetector::isSSE2Available()
+bool ExtensionDetector::isAVXAvailable(int extensionSupport)
 {
-    // #if BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_SSE2_VERSION
-    //     return true;
-    // #endif
+    if (extensionSupport >=7)
+    {
+        return true;
+    }
 
     return false;
 }
 
-bool ExtensionDetector::isAVXAvailable()
+bool ExtensionDetector::isAVX2Available(int extensionSupport)
 {
-    // #if BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_AVX_VERSION    
-    //     return true;
-    // #endif
-
-    return false;
-}
-
-bool ExtensionDetector::isAVX2Available()
-{
-    // #if BOOST_HW_SIMD_X86 >= BOOST_HW_SIMD_X86_AVX2_VERSION
-    //     return true;
-    // #endif
+    if (extensionSupport >=8)
+    {
+        return true;
+    }
 
     return false;
 }

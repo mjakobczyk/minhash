@@ -5,8 +5,6 @@
 
 int main()
 {
-	std::cout << "Hello world!" << std::endl;
-
 	OSDetector osDetector;
 	osDetector.checkOS();
 

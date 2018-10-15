@@ -24,10 +24,9 @@ public:
     std::vector<Extension> checkAvailableExtensions();
 
 private:
-    bool isSIMDAvailable();
-    bool isSSE2Available();
-    bool isAVXAvailable();
-    bool isAVX2Available();
+    bool isSSE2Available(int);
+    bool isAVXAvailable(int);
+    bool isAVX2Available(int);
 };
 
 #endif
