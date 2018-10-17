@@ -8,8 +8,12 @@ namespace MinHash
     {
     public:
         virtual ~Extension() {}
-        virtual void addition(uint64_t[], int) = 0;
-        virtual void substraction(uint64_t[], int) = 0;
+        
+        void setElementsInSingleVariable(const int);
+        int getElementsInSingleVariable();
+
+    private:
+        int elementsInSingleVariable;
     };
 };
 
