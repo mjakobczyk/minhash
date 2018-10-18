@@ -6,7 +6,9 @@ project (minhash)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(MINHASH_DIR ${PROJECT_SOURCE_DIR}/lib/minhash)
+set(MINHASH_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/minhash)
+
+add_subdirectory(minhash)
 
 # Set the output folder where your program will be created
 # set(CMAKE_BINARY_DIR ${{PROJECT_SOURCE_DIR}/bin)
@@ -16,7 +18,7 @@ set(MINHASH_DIR ${PROJECT_SOURCE_DIR}/lib/minhash)
 
 include_directories(
     include
-    ${MINHASH_DIR}
+    ${MINHASH_INCLUDE_DIR}
 )
 
 set(SOURCES 
@@ -29,5 +31,9 @@ set(SOURCES
 )
 
 add_executable(program ${SOURCES})
+
+target_link_libraries(program minhash)
+
+add_dependencies(program minhash)
 
 # install(TARGETS program DESTINATION bin)

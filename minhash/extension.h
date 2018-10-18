@@ -2,7 +2,7 @@
 #define EXTENSION_H_
 #include <iostream>
 
-namespace MinHash
+namespace minhash
 {
     class Extension
     {
