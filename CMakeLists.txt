@@ -26,6 +26,7 @@ set(SOURCES
     src/extensiondetector.cpp
     src/osdetector.cpp
     src/filemanager.cpp
+    src/arraygenerator.cpp
     src/instrset_detect.cpp # GNU license
     src/simdpoc.cpp # DELETE only for testing purposes
 )
