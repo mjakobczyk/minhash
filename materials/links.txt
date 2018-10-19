@@ -21,3 +21,6 @@ https://blog.kowalczyk.info/article/j/guide-to-predefined-macros-in-c-compilers-
 
 - How to develop static library
 https://www.youtube.com/watch?v=vwt-qdJFMjM
+
+- Guide to random numbers generators
+https://gist.github.com/PhDP/5289449
