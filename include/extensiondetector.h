@@ -10,7 +10,8 @@ enum Extension
 {
     SSE2 = 0,
     AVX,
-    AVX2
+    AVX2,
+    NONE,
 };
 
 /*
@@ -22,6 +23,8 @@ class ExtensionDetector
 {
 public:
     std::vector<Extension> checkAvailableExtensions();
+    Extension chooseExtension();
+
 
 private:
     bool isSSE2Available(int);
