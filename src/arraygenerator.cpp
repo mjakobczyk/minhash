@@ -1,6 +1,6 @@
 #include "arraygenerator.h"
 
-ArrayGenerator::ArrayGenerator() : seed(time(0)), engine(seed), distribution(0, 33333333)
+ArrayGenerator::ArrayGenerator() : seed(time(0)), engine(seed), distribution(0, ULLONG_MAX)
 {
 
 }
