@@ -24,3 +24,6 @@ https://www.youtube.com/watch?v=vwt-qdJFMjM
 
 - Guide to random numbers generators
 https://gist.github.com/PhDP/5289449
+
+- How to pass a parameter to CMake
+https://stackoverflow.com/questions/25207619/make-cmake-pass-command-line-variable-to-compiler
