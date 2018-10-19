@@ -1,7 +1,8 @@
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
-#include "osdetector.h"
+#include "arraygenerator.h"
 #include "extensiondetector.h"
+#include "osdetector.h"
 #include "minhasher.h"
 #include "minhash.h"
 
@@ -14,13 +15,14 @@ public:
     void run();
 
 private:
-    Extension chooseExtension(std::vector<Extension>);
+    minhash::MinHash *getMinHashInstance(Extension);
+    void printResults();
 
 private:
     OSDetector osDetector;
     ExtensionDetector exDetector;
-
-    minhash::MinHasher *minHasher;
+    ArrayGenerator arrGenerator;
+    Extension extension;
 
     uint64_t *input, *output;
     unsigned int arraySize;

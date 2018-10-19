@@ -23,6 +23,8 @@ class ExtensionDetector
 {
 public:
     std::vector<Extension> checkAvailableExtensions();
+    Extension chooseExtension();
+
 
 private:
     bool isSSE2Available(int);
