@@ -14,7 +14,7 @@ public:
     void run();
 
 private:
-    Extension chooseExtension(std::vector<minhash::Extension>);
+    Extension chooseExtension(std::vector<Extension>);
 
 private:
     OSDetector osDetector;

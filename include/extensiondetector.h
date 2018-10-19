@@ -10,7 +10,8 @@ enum Extension
 {
     SSE2 = 0,
     AVX,
-    AVX2
+    AVX2,
+    NONE,
 };
 
 /*
