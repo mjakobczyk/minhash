@@ -1,6 +1,7 @@
 #include "extensiondetector.h"
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "instrset.h"
 
 std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
