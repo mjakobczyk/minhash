@@ -39,15 +39,21 @@ First, clone the repository using https or SSH. Example:
 
 ```git clone https://github.com/mjakobczyk/minhash.git```
 
-Next, move to the place where project was cloned. In the main directory where **CMakeLists.txt** file is type the following:
+Second, run CMake with a compiler that you like. On Windows the default compiler will be the one from Visual Studio IDE if it is installed on the machine. Suggested solution is to use GCC.
 
-```cmake -G "MinGW Makefiles" .; make```
+### Windows 10
+
+```cd build/; cmake ../ . -G "MinGW Makefiles" .; make;```
+
+### MacOS
+
+```cd build/; cmake ../ .; make;```
 
 Finally, run the application using generated target file:
 
-``` ./minhash```
+``` ./program```
 
-## Project requirements
+## Requirements
 
 1. Implementation in C++
 2. Multiplatform (Windows, Linux)
