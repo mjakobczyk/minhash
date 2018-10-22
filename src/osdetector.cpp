@@ -3,7 +3,7 @@
 
 OSType OSDetector::checkOS()
 {
-	std::cout << "Operating system: ";
+	std::cout << "> [OS]: ";
 
 	#if defined(_WIN64)
 	{
