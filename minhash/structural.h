@@ -9,6 +9,9 @@ namespace minhash
     {
     public:
         virtual void minHash(uint64_t[], uint64_t[], const int);
+
+    private:
+        uint64_t processElement(uint64_t);
     };
 };
 
