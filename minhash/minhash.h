@@ -9,7 +9,7 @@ namespace minhash
     {
     public:
         MinHash(MinHasher*);
-        bool count(uint64_t*, uint64_t*, int);
+        void count(uint64_t*, uint64_t*, int);
 
     private:
         MinHasher* minHasher;

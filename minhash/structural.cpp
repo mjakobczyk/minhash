@@ -21,17 +21,7 @@ inline uint64_t rotl64(uint64_t x, int32_t offset)
     #endif
 }
 
-void minhash::Structural::minHash(uint64_t *input, uint64_t *output, const int size)
-{
-    for (unsigned int i = 0; i < size; ++i)
-    {
-        uint64_t temp = input[i];
-
-        output[i] = this->processElement(temp);
-    }
-}
-
-uint64_t minhash::Structural::processElement(uint64_t x)
+uint64_t minhash::Structural::minHash(uint64_t x)
 {
     // Hardcoded constants required for the algorithm
     uint64_t k = 20;

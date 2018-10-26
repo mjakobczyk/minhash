@@ -5,7 +5,12 @@ minhash::MinHash::MinHash(MinHasher* minHasher_)
     this->minHasher = minHasher_;
 }
 
-bool minhash::MinHash::count(uint64_t* input,uint64_t* output, int size)
+void minhash::MinHash::count(uint64_t* input,uint64_t* output, int size)
 {
-    this->minHasher->minHash(input, output, size);
+    for (unsigned int i = 0; i < size; ++i)
+    {
+        uint64_t temp = input[i];
+
+        output[i] = this->minHasher->minHash(temp);
+    }
 }

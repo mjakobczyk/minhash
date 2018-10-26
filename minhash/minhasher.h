@@ -8,7 +8,10 @@ namespace minhash
     {
     public:
         virtual ~MinHasher() {}
-        virtual void minHash(uint64_t[], uint64_t[], const int) = 0;
+        
+        virtual uint64_t minHash(uint64_t);
+        virtual uint64_t fmix64(uint64_t);
+        virtual uint64_t rotl64(uint64_t, int32_t);
     };
 };
 
