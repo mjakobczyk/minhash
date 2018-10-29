@@ -16,7 +16,9 @@ public:
 
 private:
     minhash::MinHash *getMinHashInstance(Extension);
-    void printResults();
+    std::chrono::duration<double> getExecutionTime();
+    void showResults();
+    void showSummary();
 
 private:
     OSDetector osDetector;
@@ -26,6 +28,7 @@ private:
 
     uint64_t *input, *output;
     unsigned int arraySize;
+    std::chrono::duration<double> executionTime;
 };
 
 #endif

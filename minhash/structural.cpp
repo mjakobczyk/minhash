@@ -2,10 +2,7 @@
 #include "minhasher.h"
 #include <cmath>
 
-minhash::Structural::Structural() : minhash::MinHasher()
-{
-    std::cout << this->k << std::endl;
-}
+minhash::Structural::Structural() : minhash::MinHasher() {}
 
 minhash::Structural::~Structural() {}
 
