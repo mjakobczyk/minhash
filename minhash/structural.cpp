@@ -1,7 +1,15 @@
 #include "structural.h"
+#include "minhasher.h"
 #include <cmath>
 
-inline uint64_t fmix64(uint64_t k)
+minhash::Structural::Structural() : minhash::MinHasher()
+{
+    std::cout << this->k << std::endl;
+}
+
+minhash::Structural::~Structural() {}
+
+ uint64_t minhash::Structural::fmix64(uint64_t k)
 {
     k ^= k >> 33;
     k *= 0xff51afd7ed558ccdull;
@@ -12,7 +20,7 @@ inline uint64_t fmix64(uint64_t k)
     return k;
 }
 
-inline uint64_t rotl64(uint64_t x, int32_t offset)
+uint64_t minhash::Structural::rotl64(uint64_t x, int32_t offset)
 {
     #ifdef WIN32
             return _rotl64(x, offset);
@@ -24,9 +32,9 @@ inline uint64_t rotl64(uint64_t x, int32_t offset)
 uint64_t minhash::Structural::minHash(uint64_t x)
 {
     // Hardcoded constants required for the algorithm
-    uint64_t k = 20;
-    uint64_t k_div_4 = (uint64_t)ceil((double)k/ 4);
-    uint64_t c42_xor_k_div_4 = 42 ^ k_div_4;
+    // uint64_t k = 20;
+    // uint64_t k_div_4 = (uint64_t)ceil((double)k/ 4);
+    // uint64_t c42_xor_k_div_4 = 42 ^ k_div_4;
 
     // Hashes in between the process to calculate
     uint64_t h, h1, h2;

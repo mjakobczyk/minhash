@@ -7,11 +7,18 @@ namespace minhash
     class MinHasher
     {
     public:
-        virtual ~MinHasher() {}
+        MinHasher();
+        virtual ~MinHasher();
         
-        virtual uint64_t minHash(uint64_t);
-        virtual uint64_t fmix64(uint64_t);
-        virtual uint64_t rotl64(uint64_t, int32_t);
+        virtual inline uint64_t minHash(uint64_t) = 0;
+        virtual inline uint64_t fmix64(uint64_t) = 0;
+        virtual inline uint64_t rotl64(uint64_t, int32_t) = 0;
+
+    protected:
+        uint64_t k;
+        uint64_t k_div_4;
+        uint64_t c42_xor_k_div_4;
+
     };
 };
 

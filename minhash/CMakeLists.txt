@@ -2,6 +2,7 @@ set(MINHASH_SRC
     extension.cpp
     minhash.cpp
     structural.cpp
+    minhasher.cpp
 )
 
 set(LIB_TYPE STATIC)

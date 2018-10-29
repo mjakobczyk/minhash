@@ -1,6 +1,7 @@
 #include "application.h"
 #include "structural.h"
 #include "extension.h"
+#include <minhasher.h>
 
 Application::Application() :
     arraySize(ARRAY_SIZE)
@@ -15,7 +16,7 @@ void Application::run()
 {
     minhash::MinHash * minHash = this->getMinHashInstance(extension);
 	minHash->count(this->input, this->output, this->arraySize);
-    this->printResults();
+    // this->printResults();
 }
 
 minhash::MinHash *Application::getMinHashInstance(Extension extension)
