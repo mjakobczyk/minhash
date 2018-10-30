@@ -28,6 +28,7 @@ set(SOURCES
     src/filemanager.cpp
     src/arraygenerator.cpp
     src/application.cpp
+    src/arraymanager.cpp
     src/instrset_detect.cpp # GNU license
     src/simdpoc.cpp # DELETE only for testing purposes
 )

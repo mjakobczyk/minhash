@@ -6,12 +6,15 @@
 #include "minhasher.h"
 #include "minhash.h"
 
-#define ARRAY_SIZE 10
+#define ARRAY_SIZE 100
 
 class Application
 {
 public:
     Application();
+    Application(int);
+    Application(uint64_t*, uint64_t*, int);
+    ~Application();
     void run();
 
 private:
