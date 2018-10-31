@@ -2,7 +2,6 @@
 #include "structural.h"
 #include "extension.h"
 #include "minhasher.h"
-#include <chrono>
 
 Application::Application() :
     arraySize(ARRAY_SIZE)

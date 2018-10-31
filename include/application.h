@@ -5,8 +5,9 @@
 #include "osdetector.h"
 #include "minhasher.h"
 #include "minhash.h"
+#include <chrono>
 
-#define ARRAY_SIZE 100
+#define ARRAY_SIZE 200000000
 
 class Application
 {
