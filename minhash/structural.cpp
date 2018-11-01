@@ -2,7 +2,10 @@
 #include "minhasher.h"
 #include <cmath>
 
-minhash::Structural::Structural(int k_, int elements_) : minhash::MinHasher(k, elements_) {}
+minhash::Structural::Structural() : minhash::MinHasher() 
+{
+    this->elementsInOneCall = 1;
+}
 
 minhash::Structural::~Structural() {}
 
@@ -19,8 +22,8 @@ void minhash::Structural::minHash(uint64_t* input, uint64_t* output, int offset)
     h = this->rotl64(h, 31);
     h *= 0x4cf5ad432745937full;
     h1 = 42 ^ h;
-    h1 ^= k_div_4; //ceil(k / 4);
-    h2 = c42_xor_k_div_4; // 42 ^ ceil(k / 4);
+    h1 ^= this->k_div_4; //ceil(k / 4);
+    h2 = this->c42_xor_k_div_4; // 42 ^ ceil(k / 4);
     h1 += h2;
     h2 += h1;
     h1 = fmix64(h1);

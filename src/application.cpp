@@ -2,6 +2,7 @@
 #include "extension.h"
 #include "minhasher.h"
 #include "structural.h"
+#include "sse2.h"
 
 Application::Application() :
     arraySize(ARRAY_SIZE)
@@ -27,7 +28,7 @@ Application::Application(uint64_t* input_, uint64_t* output_, int arraySize_)
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
     this->input = input_;
-    this->output = input_;
+    this->output = output_;
 }
 
 Application::~Application()
@@ -40,7 +41,9 @@ void Application::run()
 {
     std::cout << "Starting algorithm..." << std::endl;
 
-    minhash::MinHash * minHash = this->getMinHashInstance(extension);
+    // Choose which Extension to run app with
+    // minhash::MinHash * minHash = this->getMinHashInstance(Extension::NONE);
+    minhash::MinHash * minHash = this->getMinHashInstance(Extension::SSE2);
 
     auto start = std::chrono::high_resolution_clock::now();
 	minHash->count(this->input, this->output, this->arraySize);
@@ -49,6 +52,7 @@ void Application::run()
     this->executionTime = elapsed;
 
     std::cout << "Ending algorithm..." << std::endl;
+    this->showResults();
 	this->showSummary();
 }
 
@@ -59,21 +63,21 @@ minhash::MinHash *Application::getMinHashInstance(Extension extension)
     if (extension == Extension::AVX2)
     {
         // TODO: change mocked implementation
-        minHasher = new minhash::Structural(32, 1);
+        minHasher = new minhash::Structural();
     }
     else if (extension == Extension::AVX)
     {
         // TODO: change mocked implementation
-        minHasher = new minhash::Structural(32, 1);
+        minHasher = new minhash::Structural();
     }
     else if (extension == Extension::SSE2)
     {
         // TODO: change mocked implementation
-        minHasher = new minhash::Structural(32, 1);
+        minHasher = new minhash::SSE2();
     }
     else
     {
-        minHasher = new minhash::Structural(32, 1);
+        minHasher = new minhash::Structural();
     }
 
     return new minhash::MinHash(minHasher);
