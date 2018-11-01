@@ -26,8 +26,8 @@ void minhash::Structural::minHash(uint64_t* input, uint64_t* output, int offset)
     h2 = this->c42_xor_k_div_4; // 42 ^ ceil(k / 4);
     h1 += h2;
     h2 += h1;
-    h1 = fmix64(h1);
-    h2 = fmix64(h2);
+    //h1 = fmix64(h1);
+    //h2 = fmix64(h2);
     h1 += h2;
     h2 += h1;
 

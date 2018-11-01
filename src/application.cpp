@@ -42,8 +42,9 @@ void Application::run()
     std::cout << "Starting algorithm..." << std::endl;
 
     // Choose which Extension to run app with
-    // minhash::MinHash * minHash = this->getMinHashInstance(Extension::NONE);
-    minhash::MinHash * minHash = this->getMinHashInstance(Extension::SSE2);
+    // SSE2
+    minhash::MinHash * minHash;
+    minHash = this->getMinHashInstance(Extension::SSE2);
 
     auto start = std::chrono::high_resolution_clock::now();
 	minHash->count(this->input, this->output, this->arraySize);
@@ -51,8 +52,21 @@ void Application::run()
     std::chrono::duration<double> elapsed = finish - start;
     this->executionTime = elapsed;
 
-    std::cout << "Ending algorithm..." << std::endl;
-    this->showResults();
+    std::cout << "Ending SSE2..." << std::endl;
+    //this->showResults();
+	this->showSummary();
+
+    // Structural
+    minHash = this->getMinHashInstance(Extension::NONE);
+
+    start = std::chrono::high_resolution_clock::now();
+	minHash->count(this->input, this->output, this->arraySize);
+    finish = std::chrono::high_resolution_clock::now();
+    elapsed = finish - start;
+    this->executionTime = elapsed;
+
+    std::cout << "Ending Structural..." << std::endl;
+    //this->showResults();
 	this->showSummary();
 }
 
