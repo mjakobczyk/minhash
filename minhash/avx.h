@@ -1,15 +1,15 @@
-#ifndef SSE2_H_
-#define SSE2_H_
+#ifndef AVX_H_
+#define AVX_H_
 
 #include "minhasher.h"
 
 namespace minhash
 {
-    class SSE2 : public minhash::MinHasher
+    class AVX : public minhash::MinHasher
     {
     public:
-        SSE2();
-        virtual ~SSE2();
+        AVX();
+        virtual ~AVX();
 
         virtual inline uint64_t minHash(uint64_t);
         virtual inline uint64_t fmix64(uint64_t);

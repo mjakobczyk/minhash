@@ -1,8 +1,11 @@
 set(MINHASH_SRC
     extension.cpp
     minhash.cpp
-    structural.cpp
     minhasher.cpp
+    structural.cpp
+    sse2.cpp
+    avx.cpp
+    avx2.cpp
 )
 
 set(LIB_TYPE STATIC)

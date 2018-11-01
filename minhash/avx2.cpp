@@ -1,11 +1,11 @@
-#include "sse2.h"
+#include "avx2.h"
 #include <cmath>
 
-minhash::SSE2::SSE2() : minhash::MinHasher() {}
+minhash::AVX2::AVX2() : minhash::MinHasher() {}
 
-minhash::SSE2::~SSE2() {}
+minhash::AVX2::~AVX2() {}
 
-uint64_t minhash::SSE2::fmix64(uint64_t k)
+uint64_t minhash::AVX2::fmix64(uint64_t k)
 {
     k ^= k >> 33;
     k *= 0xff51afd7ed558ccdull;
@@ -16,12 +16,12 @@ uint64_t minhash::SSE2::fmix64(uint64_t k)
     return k;
 }
 
-uint64_t minhash::SSE2::rotl64(uint64_t x, int32_t offset)
+uint64_t minhash::AVX2::rotl64(uint64_t x, int32_t offset)
 {
     return (x << offset) | (x >> (64 - offset));
 }
 
-uint64_t minhash::SSE2::minHash(uint64_t x)
+uint64_t minhash::AVX2::minHash(uint64_t x)
 {
     // Hashes in between the process to calculate
     uint64_t h, h1, h2;
