@@ -8,6 +8,7 @@ namespace minhash
     {
     public:
         MinHasher();
+        MinHasher(int);
         virtual ~MinHasher();
         
         virtual inline uint64_t minHash(uint64_t) = 0;
