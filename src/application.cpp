@@ -1,7 +1,7 @@
 #include "application.h"
-#include "structural.h"
 #include "extension.h"
 #include "minhasher.h"
+#include "structural.h"
 
 Application::Application() :
     arraySize(ARRAY_SIZE)
@@ -59,20 +59,21 @@ minhash::MinHash *Application::getMinHashInstance(Extension extension)
     if (extension == Extension::AVX2)
     {
         // TODO: change mocked implementation
-        minHasher = new minhash::Structural;
+        minHasher = new minhash::Structural(32, 1);
     }
     else if (extension == Extension::AVX)
     {
         // TODO: change mocked implementation
-        minHasher = new minhash::Structural;    }
+        minHasher = new minhash::Structural(32, 1);
+    }
     else if (extension == Extension::SSE2)
     {
         // TODO: change mocked implementation
-        minHasher = new minhash::Structural;
+        minHasher = new minhash::Structural(32, 1);
     }
     else
     {
-        minHasher = new minhash::Structural;
+        minHasher = new minhash::Structural(32, 1);
     }
 
     return new minhash::MinHash(minHasher);

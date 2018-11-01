@@ -8,18 +8,17 @@ namespace minhash
     {
     public:
         MinHasher();
-        MinHasher(int);
+        MinHasher(int, int);
         virtual ~MinHasher();
         
-        virtual inline uint64_t minHash(uint64_t) = 0;
-        virtual inline uint64_t fmix64(uint64_t) = 0;
-        virtual inline uint64_t rotl64(uint64_t, int32_t) = 0;
+        virtual inline void minHash(uint64_t*, uint64_t*, int) = 0;
+        int getElementsInOneCall();
 
     protected:
         uint64_t k;
         uint64_t k_div_4;
         uint64_t c42_xor_k_div_4;
-
+        int elementsInOneCall;
     };
 };
 

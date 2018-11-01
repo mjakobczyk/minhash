@@ -8,12 +8,14 @@ namespace minhash
     class Structural : public minhash::MinHasher
     {
     public:
-        Structural();
+        Structural(int, int);
         virtual ~Structural();
 
-        virtual inline uint64_t minHash(uint64_t);
-        virtual inline uint64_t fmix64(uint64_t);
-        virtual inline uint64_t rotl64(uint64_t, int32_t);
+        virtual inline void minHash(uint64_t*, uint64_t*, int);
+
+    private:
+        uint64_t fmix64(uint64_t);
+        uint64_t rotl64(uint64_t, int32_t);
     };
 };
 

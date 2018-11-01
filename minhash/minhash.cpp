@@ -7,10 +7,17 @@ minhash::MinHash::MinHash(MinHasher* minHasher_)
 
 void minhash::MinHash::count(uint64_t* input,uint64_t* output, int size)
 {
-    for (unsigned int i = 0; i < size; ++i)
+    int increment = this->minHasher->getElementsInOneCall();
+    int lastCall = 0;
+    
+    for (unsigned int i = 0; i < size; i += increment)
     {
-        uint64_t temp = input[i];
+        // If size % increment != 0 - consider this case
+        // if (i + increment >= size)
+        // {
+        //   // ...
+        // }
 
-        output[i] = this->minHasher->minHash(temp);
+        this->minHasher->minHash(input, output, i);
     }
 }
