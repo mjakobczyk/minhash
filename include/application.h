@@ -5,18 +5,24 @@
 #include "osdetector.h"
 #include "minhasher.h"
 #include "minhash.h"
+#include <chrono>
 
-#define ARRAY_SIZE 10
+#define ARRAY_SIZE 16
 
 class Application
 {
 public:
     Application();
+    Application(int);
+    Application(uint64_t*, uint64_t*, int);
+    ~Application();
     void run();
 
 private:
     minhash::MinHash *getMinHashInstance(Extension);
-    void printResults();
+    std::chrono::duration<double> getExecutionTime();
+    void showResults();
+    void showSummary();
 
 private:
     OSDetector osDetector;
@@ -26,6 +32,7 @@ private:
 
     uint64_t *input, *output;
     unsigned int arraySize;
+    std::chrono::duration<double> executionTime;
 };
 
 #endif
