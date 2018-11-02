@@ -1,6 +1,7 @@
 #include "sse2.h"
 #include <cmath>
 #include <immintrin.h>
+#include <inttypes.h>
 
 minhash::SSE2::SSE2() : minhash::MinHasher() 
 {
@@ -32,21 +33,31 @@ void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
     // // Perform calculations
     // h = x;
     h = _mm_set_epi64x(in[0], in[1]);
-    h3 = h;
+
+    if (DEBUG) std::cout << "SSE2 debug in..." << std::endl;
+    if (DEBUG) this->printValue(h);
 
     // h *= 0x87c37b91114253d5ull;
     __m128i t1 =_mm_set1_epi64x(0x87c37b91114253d5ull);
     h = _mm_mul_epu32(h, t1);
+
+    if (DEBUG) this->printValue(h);
     
     h = rotl64(h, 31);
+
+    if (DEBUG) this->printValue(h);
 
     // h *= 0x4cf5ad432745937full;
     __m128i t2 =_mm_set1_epi64x(0x4cf5ad432745937full);
     h = _mm_mul_epu32(h, t2);
 
+    if (DEBUG) this->printValue(h);
+
     // h1 = 42 ^ h;
     __m128i t3 = _mm_set1_epi16(42);
     h1 = _mm_xor_si128(h, t3);
+
+    if (DEBUG) this->printValue(h);
 
     // h1 ^= k_div_4; //ceil(k / 4);
     __m128i t4 = _mm_set1_epi32(this->k_div_4);
@@ -86,32 +97,37 @@ void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
     // Version 2: straight-forward
     *(output + offset) = out[size - 1];
     *(output + offset + 1) = out[size - 2];
+
+    if (DEBUG) std::cout << "SSE2 debug out...";
+    std::cout << std::endl << std::endl;
 }
 
 __m128i minhash::SSE2::fmix64(__m128i x)
 {
-    // k = k >> 33
-    x = _mm_srli_epi64(x, 33);
+    __m128i t1;
+    // k >> 33
+    t1 = _mm_srli_epi64(x, 33);
     // k ^= k
-    x = _mm_xor_si128(x, x);
-    // k = k >> 33
-    x = _mm_srli_epi64(x, 33);
+    x = _mm_xor_si128(x, t1);
+    // k >> 33
+    t1 = _mm_srli_epi64(x, 33);
     // k ^= k
-    x = _mm_xor_si128(x, x);
+    x = _mm_xor_si128(x, t1);
     // k *= 0xff51afd7ed558ccdull;
-    __m128i t1 =_mm_set1_epi64x(0xff51afd7ed558ccdull);
-    x = _mm_mul_epu32(x, t1);
-    // k = k >> 33
-    x = _mm_srli_epi64(x, 33);
-    // k ^= k
-    x = _mm_xor_si128(x, x);
-    // k *= 0xc4ceb9fe1a85ec53ull;
-    __m128i t2 =_mm_set1_epi64x(0xc4ceb9fe1a85ec53ull);
+    __m128i t2 =_mm_set1_epi64x(0xff51afd7ed558ccdull);
     x = _mm_mul_epu32(x, t2);
-    // k = k >> 33
-    x = _mm_srli_epi64(x, 33);
+    // k >> 33
+    t1 = _mm_srli_epi64(x, 33);
     // k ^= k
-    x = _mm_xor_si128(x, x);
+    x = _mm_xor_si128(x, t1);
+    // k *= 0xc4ceb9fe1a85ec53ull;
+    __m128i t3 =_mm_set1_epi64x(0xc4ceb9fe1a85ec53ull);
+    x = _mm_mul_epu32(x, t3);
+    // k >> 33
+    t1 = _mm_srli_epi64(x, 33);
+    // k ^= k
+    x = _mm_xor_si128(x, t1);
+    
 
     return x;
 }
@@ -122,4 +138,13 @@ __m128i minhash::SSE2::rotl64(__m128i x, int32_t offset)
     __m128i h1 = _mm_slli_epi64(x, offset);
     __m128i h2 = _mm_srli_epi64(x, 64 - offset);
     return _mm_or_si128(h1, h2);
+}
+
+void minhash::SSE2::printValue(__m128i var)
+{
+	uint64_t v[2];
+    _mm_store_si128((__m128i*)v, var);
+    // printf("% %" PRIu64 PRIu64 "\n", v[1], v[0]);
+    printf("%" PRIu64 "\t", v[1]);
+    printf("%" PRIu64 "\n", v[0]);
 }

@@ -1,6 +1,7 @@
 #include "structural.h"
 #include "minhasher.h"
 #include <cmath>
+#include <inttypes.h>
 
 minhash::Structural::Structural() : minhash::MinHasher() 
 {
@@ -18,10 +19,16 @@ void minhash::Structural::minHash(uint64_t* input, uint64_t* output, int offset)
 
     // Perform calculations
     h = x;
+    if (DEBUG) std::cout << "Structural debug in...." << std::endl;
+    if (DEBUG) this->printValue(h);
     h *= 0x87c37b91114253d5ull;
+    if (DEBUG) this->printValue(h);
     h = this->rotl64(h, 31);
+    if (DEBUG) this->printValue(h);
     h *= 0x4cf5ad432745937full;
+    if (DEBUG) this->printValue(h);
     h1 = 42 ^ h;
+    if (DEBUG) this->printValue(h);
     h1 ^= this->k_div_4; //ceil(k / 4);
     h2 = this->c42_xor_k_div_4; // 42 ^ ceil(k / 4);
     h1 += h2;
@@ -33,6 +40,9 @@ void minhash::Structural::minHash(uint64_t* input, uint64_t* output, int offset)
 
     // Return XOR as a final hash
     output[offset] = h1 ^ h2;
+
+    if (DEBUG) std::cout << "Structural debug out...";
+    std::cout << std::endl << std::endl;
 }
 
 uint64_t minhash::Structural::fmix64(uint64_t element)
@@ -49,4 +59,9 @@ uint64_t minhash::Structural::fmix64(uint64_t element)
 uint64_t minhash::Structural::rotl64(uint64_t x, int32_t offset)
 {
     return (x << offset) | (x >> (64 - offset));
+}
+
+void minhash::Structural::printValue(uint64_t x)
+{
+    printf("%" PRIu64 "\n", x);
 }

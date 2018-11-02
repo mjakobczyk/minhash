@@ -3,6 +3,8 @@
 #include "minhasher.h"
 #include <immintrin.h>
 
+#define DEBUG true
+
 namespace minhash
 {
     class SSE2 : public minhash::MinHasher
@@ -16,8 +18,8 @@ namespace minhash
     private:
         __m128i fmix64(__m128i);
         __m128i rotl64( __m128i, int32_t);
+        void printValue(__m128i var);
     };
-
 };
 
 #endif

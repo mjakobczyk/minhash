@@ -3,6 +3,7 @@
 #include "minhasher.h"
 #include "structural.h"
 #include "sse2.h"
+#include <inttypes.h>
 
 Application::Application() :
     arraySize(ARRAY_SIZE)
@@ -52,9 +53,8 @@ void Application::run()
     std::chrono::duration<double> elapsed = finish - start;
     this->executionTime = elapsed;
 
-    std::cout << "Ending SSE2..." << std::endl;
-    //this->showResults();
-	this->showSummary();
+    // this->showResults();
+	// this->showSummary();
 
     // Structural
     minHash = this->getMinHashInstance(Extension::NONE);
@@ -65,9 +65,9 @@ void Application::run()
     elapsed = finish - start;
     this->executionTime = elapsed;
 
-    std::cout << "Ending Structural..." << std::endl;
-    //this->showResults();
-	this->showSummary();
+    // this->showResults();
+	// this->showSummary();
+    std::cout << std::endl << "Ending algorithm..." << std::endl;
 }
 
 minhash::MinHash *Application::getMinHashInstance(Extension extension)
@@ -102,22 +102,20 @@ void Application::showResults()
     std::cout << std::endl << "Input array:" << std::endl;
     for (unsigned int i = 0; i < this->arraySize; ++i)
     {
-        std::cout << this->input[i] << std::endl;
+        printf("%" PRIu64 "\n", this->input[i]);
     }
-    std::cout << std::endl;
 
     std::cout << std::endl << "Output array:" << std::endl;
     for (unsigned int i = 0; i < this->arraySize; ++i)
     {
-        std::cout << this->output[i] << std::endl;
+        printf("%" PRIu64 "\n", this->output[i]);
     }
-    std::cout << std::endl;
 }
 
 void Application::showSummary()
 {
     std::cout << "[SUMMARY INFO]" << std::endl;
-    std::cout << "Array size = " << this->arraySize << std::endl;
-    std::cout << "Extension: " << this->extension << std::endl;
+    // std::cout << "Array size = " << this->arraySize << std::endl;
+    // std::cout << "Extension: " << this->extension << std::endl;
     std::cout << "Execution time: " << this->executionTime.count() << std::endl << std::endl;
 }
