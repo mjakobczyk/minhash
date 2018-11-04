@@ -11,7 +11,7 @@ Application::Application() :
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
     this->input = this->arrGenerator.generateRandomUint64Array(this->arraySize);
-    this->output = new uint64_t[this->arraySize];
+    this->output = (uint64_t*) _aligned_malloc(this->arraySize * sizeof(uint64_t), 16);
 }
 
 Application::Application(int arraySize_)
@@ -20,7 +20,7 @@ Application::Application(int arraySize_)
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
     this->input = this->arrGenerator.generateRandomUint64Array(this->arraySize);
-    this->output = new uint64_t[this->arraySize];
+    this->output = (uint64_t*) _aligned_malloc(arraySize_ * sizeof(uint64_t), 16);
 }
 
 Application::Application(uint64_t* input_, uint64_t* output_, int arraySize_)
@@ -34,8 +34,8 @@ Application::Application(uint64_t* input_, uint64_t* output_, int arraySize_)
 
 Application::~Application()
 {
-    delete [] this->input;
-    delete [] this->output;
+    _aligned_free(this->input);
+    _aligned_free(this->output);
 }
 
 void Application::run()
@@ -45,8 +45,8 @@ void Application::run()
     // Choose which Extension to run app with
     // SSE2
     minhash::MinHash * minHash;
-    minHash = this->getMinHashInstance(Extension::SSE2);
-
+    minHash = this->getMinHashInstance(Extension::NONE);
+    this->extension = Extension::NONE;
     auto start = std::chrono::high_resolution_clock::now();
 	minHash->count(this->input, this->output, this->arraySize);
     auto finish = std::chrono::high_resolution_clock::now();
@@ -57,8 +57,8 @@ void Application::run()
 	this->showSummary();
 
     // Structural
-    minHash = this->getMinHashInstance(Extension::NONE);
-
+    minHash = this->getMinHashInstance(Extension::SSE2);
+    this->extension = Extension::SSE2;
     start = std::chrono::high_resolution_clock::now();
 	minHash->count(this->input, this->output, this->arraySize);
     finish = std::chrono::high_resolution_clock::now();
@@ -115,7 +115,7 @@ void Application::showResults()
 void Application::showSummary()
 {
     std::cout << "[SUMMARY INFO]" << std::endl;
-    // std::cout << "Array size = " << this->arraySize << std::endl;
-    // std::cout << "Extension: " << this->extension << std::endl;
+    std::cout << "Array size = " << this->arraySize << std::endl;
+    std::cout << "Extension: " << this->extension << std::endl;
     std::cout << "Execution time: " << this->executionTime.count() << std::endl << std::endl;
 }
