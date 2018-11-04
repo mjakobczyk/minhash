@@ -5,6 +5,8 @@ cmake_minimum_required(VERSION 3.12)
 project (minhash)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")  
 
 set(MINHASH_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/minhash)
 

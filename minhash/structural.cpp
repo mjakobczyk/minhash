@@ -1,7 +1,6 @@
 #include "structural.h"
 #include "minhasher.h"
 #include <cmath>
-#include <inttypes.h>
 
 minhash::Structural::Structural() : minhash::MinHasher() 
 {
@@ -19,30 +18,51 @@ void minhash::Structural::minHash(uint64_t* input, uint64_t* output, int offset)
 
     // Perform calculations
     h = x;
-    if (DEBUG) std::cout << "Structural debug in...." << std::endl;
-    if (DEBUG) this->printValue(h);
+    if(DEBUG) std::cout << "Structural debug in...." << std::endl;
+    if(DEBUG) this->printValue(h);
+
     h *= 0x87c37b91114253d5ull;
-    if (DEBUG) this->printValue(h);
-    h = this->rotl64(h, 31);
-    if (DEBUG) this->printValue(h);
-    h *= 0x4cf5ad432745937full;
-    if (DEBUG) this->printValue(h);
-    h1 = 42 ^ h;
-    if (DEBUG) this->printValue(h);
-    h1 ^= this->k_div_4; //ceil(k / 4);
-    h2 = this->c42_xor_k_div_4; // 42 ^ ceil(k / 4);
-    h1 += h2;
-    h2 += h1;
-    //h1 = fmix64(h1);
-    //h2 = fmix64(h2);
-    h1 += h2;
-    h2 += h1;
+    if(DEBUG) this->printValue(h);
 
-    // Return XOR as a final hash
-    output[offset] = h1 ^ h2;
+    // h = this->rotl64(h, 31);
+    // if(DEBUG) this->printValue(h);
 
-    if (DEBUG) std::cout << "Structural debug out...";
-    std::cout << std::endl << std::endl;
+    // h *= 0x4cf5ad432745937full;
+    // if(DEBUG) this->printValue(h);
+
+    // h1 = 42 ^ h;
+    // if(DEBUG) this->printValue(h1);
+
+    // h1 ^= this->k_div_4; //ceil(k / 4);
+    // if(DEBUG) this->printValue(h1);
+
+    // h2 = this->c42_xor_k_div_4; // 42 ^ ceil(k / 4);
+    // if(DEBUG) this->printValue(h2);
+
+    // h1 += h2;
+    // if(DEBUG) this->printValue(h1);
+
+    // h2 += h1;
+    // if(DEBUG) this->printValue(h2);
+
+    // h1 = fmix64(h1);
+    // if(DEBUG) this->printValue(h1);
+
+    // h2 = fmix64(h2);
+    // if(DEBUG) this->printValue(h2);
+
+    // h1 += h2;
+    // if(DEBUG) this->printValue(h1);
+
+    // h2 += h1;
+    // if(DEBUG) this->printValue(h2);
+
+    // // Return XOR as a final hash
+    // output[offset] = h1 ^ h2;
+    // if(DEBUG) this->printValue(output[offset]);
+    output[offset] = h;
+
+    if(DEBUG) std::cout << "Structural debug out..." << std::endl << std::endl;
 }
 
 uint64_t minhash::Structural::fmix64(uint64_t element)

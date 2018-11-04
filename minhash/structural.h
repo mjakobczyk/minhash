@@ -2,8 +2,10 @@
 #define STRUCTURAL_H_
 #include <iostream>
 #include "minhasher.h"
+#define __STDC_FORMAT_MACROS
+#include <inttypes.h>
 
-#define DEBUG true
+#define DEBUG 0
 
 namespace minhash
 {

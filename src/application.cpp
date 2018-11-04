@@ -54,7 +54,7 @@ void Application::run()
     this->executionTime = elapsed;
 
     // this->showResults();
-	// this->showSummary();
+	this->showSummary();
 
     // Structural
     minHash = this->getMinHashInstance(Extension::NONE);
@@ -66,7 +66,7 @@ void Application::run()
     this->executionTime = elapsed;
 
     // this->showResults();
-	// this->showSummary();
+	this->showSummary();
     std::cout << std::endl << "Ending algorithm..." << std::endl;
 }
 

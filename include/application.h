@@ -7,7 +7,8 @@
 #include "minhash.h"
 #include <chrono>
 
-#define ARRAY_SIZE 2
+#define ARRAY_SIZE 1000000
+#define DEBUG 0
 
 class Application
 {
