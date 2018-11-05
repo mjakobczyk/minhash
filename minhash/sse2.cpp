@@ -11,8 +11,7 @@ minhash::SSE2::~SSE2() {}
 
 void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
 {
-    int size = this->elementsInOneCall;
-    uint64_t out[size];
+    uint64_t out[2];
 
     __m128i h, h1, h2, h3;
 
@@ -65,8 +64,8 @@ void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
     // }
 
     // // Version 2: straight-forward
-    *(output + offset) = out[size - 1];
-    *(output + offset + 1) = out[size - 2];
+    *(output + offset) = out[1];
+    *(output + offset + 1) = out[0];
 }
 
 __m128i minhash::SSE2::fmix64(__m128i x)

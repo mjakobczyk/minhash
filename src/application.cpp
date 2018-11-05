@@ -11,7 +11,8 @@ Application::Application() :
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
     this->input = this->arrGenerator.generateRandomUint64Array(this->arraySize);
-    this->output = (uint64_t*) _aligned_malloc(this->arraySize * sizeof(uint64_t), 16);
+    // this->output = (uint64_t*)std::_aligned_malloc(this->arraySize * sizeof(uint64_t), 16);
+    this->output = new uint64_t[this->arraySize];
 }
 
 Application::Application(int arraySize_)
@@ -20,7 +21,7 @@ Application::Application(int arraySize_)
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
     this->input = this->arrGenerator.generateRandomUint64Array(this->arraySize);
-    this->output = (uint64_t*) _aligned_malloc(arraySize_ * sizeof(uint64_t), 16);
+    this->output = new uint64_t[this->arraySize];
 }
 
 Application::Application(uint64_t* input_, uint64_t* output_, int arraySize_)
@@ -34,8 +35,11 @@ Application::Application(uint64_t* input_, uint64_t* output_, int arraySize_)
 
 Application::~Application()
 {
-    _aligned_free(this->input);
-    _aligned_free(this->output);
+    // Not working on MacOS
+    // _aligned_free(this->input);
+    // _aligned_free(this->output);
+    delete [] this->input;
+    delete [] this->output;
 }
 
 void Application::run()
