@@ -1,4 +1,5 @@
 #include "rotl.h"
+#include <chrono>
 
 uint64_t StructuralRotl64(uint64_t x, int32_t offset)
 {
@@ -48,15 +49,14 @@ void TestAllRotlImpl()
     TestStructuralRotlImpl(input, output, size);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-    std::cout << output[0] << "\t" << output[1] << std::endl;
+    if (ROTL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "Structural Rotl " << size << " elements: " << elapsed.count() << " s" << std::endl;
     
     start = std::chrono::high_resolution_clock::now();
     TestSSE2RotlImpl(input, output, size);
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
-
-    std::cout << output[0] << "\t" << output[1] << std::endl;
+    if (ROTL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "SSE2\t   Rotl " << size << " elements: " << elapsed.count() << " s" << std::endl;
     std::cout << std::endl;
 

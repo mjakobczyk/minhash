@@ -4,6 +4,8 @@
 #include <cmath>
 #include <emmintrin.h>
 
+#define ADD_DEBUG 0
+
 void TestStructuralAddImpl(uint64_t* input, uint64_t* output, int size);
 void TestSSE2AddImpl(uint64_t* input, uint64_t* output, int size);
 void TestAllAddImpl();

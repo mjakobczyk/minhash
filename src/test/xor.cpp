@@ -1,4 +1,5 @@
 #include "xor.h"
+#include <chrono>
 
 void TestStructuralXorImpl(uint64_t* input, uint64_t* output, int size)
 {
@@ -40,14 +41,14 @@ void TestAllXorImpl()
     TestStructuralXorImpl(input, output, size);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-    std::cout << output[0] << "\t" << output[1] << std::endl;
+    if (XOR_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "Structural XOR " << size << " elements: " << elapsed.count() << " s" << std::endl;
     
     start = std::chrono::high_resolution_clock::now();
     TestSSE2XorImpl(input, output, size);
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
-    std::cout << output[0] << "\t" << output[1] << std::endl;
+    if (XOR_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "SSE2\t   XOR " << size << " elements: " << elapsed.count() << " s" << std::endl;
     std::cout << std::endl;
 

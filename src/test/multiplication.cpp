@@ -1,4 +1,5 @@
 #include "multiplication.h"
+#include <chrono>
 
 void TestStructuralMulImpl(uint64_t* input, uint64_t* output, int size)
 {
@@ -60,7 +61,7 @@ void TestAllMulImpl()
     TestStructuralMulImpl(input, output, size);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-    std::cout << output[0] << "\t" << output[1] << std::endl;
+    if (MUL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "Structural multiplication " << size << " elements: " << elapsed.count() << " s" << std::endl;
     
     uint64_t* sse2Store = new uint64_t[3];
@@ -68,7 +69,7 @@ void TestAllMulImpl()
     TestSSE2MulImpl(input, output, size);
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
-    std::cout << output[0] << "\t" << output[1] << std::endl;
+    if (MUL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "SSE2\t   multiplication " << size << " elements: " << elapsed.count() << " s" << std::endl;
     std::cout << std::endl;
 

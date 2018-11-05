@@ -1,4 +1,5 @@
 #include "addition.h"
+#include <chrono>
 
 void TestStructuralAddImpl(uint64_t* input, uint64_t* output, int size)
 {
@@ -45,15 +46,14 @@ void TestAllAddImpl()
     TestStructuralAddImpl(input, output, size);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-    std::cout << output[0] << "\t" << output[1] << std::endl;
+    if (ADD_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "Structural addition " << size << " elements: " << elapsed.count() << " s" << std::endl;
     
     start = std::chrono::high_resolution_clock::now();
     TestSSE2AddImpl(input, output, size);
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
-    std::cout << output[0] << "\t" << output[1] << std::endl;
-    
+    if (ADD_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "SSE2\t   addition " << size << " elements: " << elapsed.count() << " s" << std::endl;
     std::cout << std::endl;
 
