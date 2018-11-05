@@ -11,24 +11,24 @@ minhash::SSE2::~SSE2() {}
 
 void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
 {
-    uint64_t out[2];
+    // uint64_t out[2];
 
     __m128i h, h1, h2, h3;
 
     // Perform calculations
-    h = _mm_set_epi64x(*(input + offset), *(input + offset + 1));
+    h = _mm_set_epi64x(*(input + offset + 1), *(input + offset));
 
     __m128i t1 =_mm_set1_epi64x(0x87c37b91114253d5ull);
 
     // Old version - multiply 32bit value
     // h = _mm_mul_epu32(h, t1);
     // New version - own function
-    h = this->multiply64Bit(h, t1);
+    // h = this->multiply64Bit(h, t1);
 
     h = this->rotl64(h, 31);
 
     __m128i t2 =_mm_set1_epi64x(0x4cf5ad432745937full);
-    h = this->multiply64Bit(h, t2);
+    //   h = this->multiply64Bit(h, t2);
 
     __m128i t3 = _mm_set1_epi16(42);
     h1 = _mm_xor_si128(h, t3);
@@ -42,9 +42,9 @@ void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
 
     h2 = _mm_add_epi64(h2, h1);
 
-    h1 = fmix64(h1);
+    // h1 = fmix64(h1);
 
-    h2 = fmix64(h2);
+    // h2 = fmix64(h2);
 
     h1 = _mm_add_epi64(h1, h2);
 
@@ -54,7 +54,7 @@ void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
     h3 = _mm_xor_si128(h1, h2);
 
     // _mm_store_si128((__m128i*)out, h3);
-    _mm_store_si128((__m128i*)out, h3);
+    _mm_store_si128((__m128i*)&output[offset], h3);
 
     // Version 1: Loop
     // Fill output array with values count in the algorithm
@@ -64,8 +64,8 @@ void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
     // }
 
     // // Version 2: straight-forward
-    *(output + offset) = out[1];
-    *(output + offset + 1) = out[0];
+    // *(output + offset) = out[1];
+    // *(output + offset + 1) = out[0];
 }
 
 __m128i minhash::SSE2::fmix64(__m128i x)
@@ -106,8 +106,6 @@ __m128i minhash::SSE2::multiply64Bit(__m128i a, __m128i b)
 {
     auto ax0_ax1_ay0_ay1 = a;
     auto bx0_bx1_by0_by1 = b;
-
-    // i means ignored
     
     auto ax1_i_ay1_i = _mm_shuffle_epi32(ax0_ax1_ay0_ay1, _MM_SHUFFLE(3, 3, 1, 1));
     auto bx1_i_by1_i = _mm_shuffle_epi32(bx0_bx1_by0_by1, _MM_SHUFFLE(3, 3, 1, 1));

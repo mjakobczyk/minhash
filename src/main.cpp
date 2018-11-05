@@ -7,13 +7,13 @@
 
 int main()
 {	
-	TestAllAddImpl();
-	TestAllMulImpl();
-	TestAllXorImpl();
-	TestAllRotlImpl();
+	// TestAllAddImpl();
+	// TestAllMulImpl();
+	// TestAllXorImpl();
+	// TestAllRotlImpl();
 
-	// Application application;
-	// application.run();
+	Application application;
+	application.run();
 
     char stopper;
 	std::cin >> stopper;
