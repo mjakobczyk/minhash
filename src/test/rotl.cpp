@@ -38,6 +38,37 @@ void TestSSE2RotlImpl(uint64_t* input, uint64_t* output, int size)
     }
 }
 
+__m256i AVXRotl64(__m256i x, int32_t offset)
+{
+    // Mocked implementation
+
+    return x;
+}
+
+__m256i AVX2Rotl64(__m256i x, int32_t offset)
+{
+    return _mm256_or_si256( _mm256_slli_epi64(x, offset), _mm256_srli_epi64(x, 64 - offset));
+}
+
+void TestAVX2RotlImpl(uint64_t* input, uint64_t* output, int size)
+{
+    for (unsigned int i = 0; i < size; i += 4)
+    {
+        __m256i h1;
+
+        h1 = _mm256_set_epi64x(
+            *(input + i + 3),
+            *(input + i + 2),
+            *(input + i + 1), 
+            *(input + i)
+        );
+
+        AVX2Rotl64(h1, 31);
+
+        _mm256_store_si256((__m256i*)&output[i], h1);
+    }
+}
+
 void TestAllRotlImpl()
 {
     ArrayGenerator * arrayGenerator = new ArrayGenerator();
@@ -58,6 +89,14 @@ void TestAllRotlImpl()
     elapsed = finish - start;
     if (ROTL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "SSE2\t   Rotl " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    
+    start = std::chrono::high_resolution_clock::now();
+    TestAVX2RotlImpl(input, output, size);
+    finish = std::chrono::high_resolution_clock::now();
+    elapsed = finish - start;
+    if (ROTL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
+    std::cout << "AVX2\t   Rotl " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    
     std::cout << std::endl;
 
     delete [] input;

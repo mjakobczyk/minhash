@@ -16,7 +16,7 @@ void TestStructuralMulImpl(uint64_t* input, uint64_t* output, int size)
     }
 }
 
-inline __m128i multiply64Bit(__m128i a, __m128i b)
+inline __m128i SSE2Multiply64Bit(__m128i a, __m128i b)
 {
     // auto ax0_ax1_ay0_ay1 = a;
     // auto bx0_bx1_by0_by1 = b;
@@ -44,9 +44,46 @@ void TestSSE2MulImpl(uint64_t* input, uint64_t* output, int size)
         h1 = _mm_set_epi64x(*(input + i + 1), *(input + i));
         h2 = _mm_set1_epi64x(0x4cf5ad432745937full);
 
-        h1 = multiply64Bit(h1, h2);
+        h1 = SSE2Multiply64Bit(h1, h2);
 
         _mm_store_si128((__m128i*)&output[i], h1);
+    }
+}
+
+void TestAVXMulImpl(uint64_t* input, uint64_t* output, int size)
+{   
+    for (unsigned int i = 0; i < size; i += 4)
+    {
+        // unsupported types for integers
+        // it would bring same output as sse2
+    }
+}
+
+inline __m256i AVX2Multiply64Bit(__m256i a, __m256i b)
+{
+    // Mocked implementation
+
+    return  _mm256_set1_epi64x(0x4cf5ad432745937full);
+}
+
+void TestAVX2MulImpl(uint64_t* input, uint64_t* output, int size)
+{   
+    for (unsigned int i = 0; i < size; i += 4)
+    {
+        __m256i h1, h2;
+
+        h1 = _mm256_set_epi64x(
+            *(input + i + 3),
+            *(input + i + 2),
+            *(input + i + 1), 
+            *(input + i)
+        );
+        
+        h2 = _mm256_set1_epi64x(0x4cf5ad432745937full);
+
+        h1 = AVX2Multiply64Bit(h1, h2);
+
+        _mm256_store_si256((__m256i*)&output[i], h1);
     }
 }
 
@@ -63,14 +100,21 @@ void TestAllMulImpl()
     std::chrono::duration<double> elapsed = finish - start;
     if (MUL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "Structural multiplication " << size << " elements: " << elapsed.count() << " s" << std::endl;
-    
-    uint64_t* sse2Store = new uint64_t[3];
+
     start = std::chrono::high_resolution_clock::now();
     TestSSE2MulImpl(input, output, size);
     finish = std::chrono::high_resolution_clock::now();
     elapsed = finish - start;
     if (MUL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "SSE2\t   multiplication " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    
+    start = std::chrono::high_resolution_clock::now();
+    TestAVX2MulImpl(input, output, size);
+    finish = std::chrono::high_resolution_clock::now();
+    elapsed = finish - start;
+    if (MUL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
+    std::cout << "AVX2\t   multiplication " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    
     std::cout << std::endl;
 
     delete [] input;
