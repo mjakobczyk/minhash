@@ -4,7 +4,9 @@ cmake_minimum_required(VERSION 3.12)
 # Name of the project is minhash
 project (minhash)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")  
 
 set(MINHASH_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/minhash)
 
@@ -33,7 +35,14 @@ set(SOURCES
     src/simdpoc.cpp # DELETE only for testing purposes
 )
 
-add_executable(program ${SOURCES})
+set (TESTS
+    src/test/addition.cpp
+    src/test/multiplication.cpp
+    src/test/xor.cpp
+    src/test/rotl.cpp
+)
+
+add_executable(program ${SOURCES} ${TESTS})
 
 target_link_libraries(program minhash)
 

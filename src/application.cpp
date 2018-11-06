@@ -3,6 +3,7 @@
 #include "minhasher.h"
 #include "structural.h"
 #include "sse2.h"
+#include <inttypes.h>
 
 Application::Application() :
     arraySize(ARRAY_SIZE)
@@ -10,6 +11,7 @@ Application::Application() :
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
     this->input = this->arrGenerator.generateRandomUint64Array(this->arraySize);
+    // this->output = (uint64_t*)std::_aligned_malloc(this->arraySize * sizeof(uint64_t), 16);
     this->output = new uint64_t[this->arraySize];
 }
 
@@ -33,6 +35,9 @@ Application::Application(uint64_t* input_, uint64_t* output_, int arraySize_)
 
 Application::~Application()
 {
+    // Not working on MacOS
+    // _aligned_free(this->input);
+    // _aligned_free(this->output);
     delete [] this->input;
     delete [] this->output;
 }
@@ -42,18 +47,31 @@ void Application::run()
     std::cout << "Starting algorithm..." << std::endl;
 
     // Choose which Extension to run app with
-    // minhash::MinHash * minHash = this->getMinHashInstance(Extension::NONE);
-    minhash::MinHash * minHash = this->getMinHashInstance(Extension::SSE2);
-
+    // SSE2
+    minhash::MinHash * minHash;
+    minHash = this->getMinHashInstance(Extension::NONE);
+    this->extension = Extension::NONE;
     auto start = std::chrono::high_resolution_clock::now();
 	minHash->count(this->input, this->output, this->arraySize);
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     this->executionTime = elapsed;
 
-    std::cout << "Ending algorithm..." << std::endl;
-    this->showResults();
+    // this->showResults();
 	this->showSummary();
+
+    // Structural
+    minHash = this->getMinHashInstance(Extension::SSE2);
+    this->extension = Extension::SSE2;
+    start = std::chrono::high_resolution_clock::now();
+	minHash->count(this->input, this->output, this->arraySize);
+    finish = std::chrono::high_resolution_clock::now();
+    elapsed = finish - start;
+    this->executionTime = elapsed;
+
+    // this->showResults();
+	this->showSummary();
+    std::cout << std::endl << "Ending algorithm..." << std::endl;
 }
 
 minhash::MinHash *Application::getMinHashInstance(Extension extension)
@@ -88,16 +106,14 @@ void Application::showResults()
     std::cout << std::endl << "Input array:" << std::endl;
     for (unsigned int i = 0; i < this->arraySize; ++i)
     {
-        std::cout << this->input[i] << std::endl;
+        printf("%" PRIu64 "\n", this->input[i]);
     }
-    std::cout << std::endl;
 
     std::cout << std::endl << "Output array:" << std::endl;
     for (unsigned int i = 0; i < this->arraySize; ++i)
     {
-        std::cout << this->output[i] << std::endl;
+        printf("%" PRIu64 "\n", this->output[i]);
     }
-    std::cout << std::endl;
 }
 
 void Application::showSummary()
