@@ -35,6 +35,36 @@ void TestSSE2AddImpl(uint64_t* input, uint64_t* output, int size)
     }
 }
 
+void TestAVXAddImpl(uint64_t* input, uint64_t* output, int size)
+{   
+    for (unsigned int i = 0; i < size; i += 2)
+    {
+        // unsupported types for integers
+        // it would bring same output as sse2
+    }
+}
+
+void TestAVX2AddImpl(uint64_t* input, uint64_t* output, int size)
+{   
+    for (unsigned int i = 0; i < size; i += 4)
+    {
+        __m256i h1, h2, h3;
+
+        h1 = _mm256_set_epi64x(
+            *(input + i + 3),
+            *(input + i + 2),
+            *(input + i + 1), 
+            *(input + i)
+        );
+
+        h2 = _mm256_set1_epi64x(0x4cf5ad432745937full);
+
+        h3 = _mm256_add_epi64(h1, h2);
+
+        _mm256_store_si256((__m256i*)&output[i], h3);
+    }
+}
+
 void TestAllAddImpl()
 {
     ArrayGenerator * arrayGenerator = new ArrayGenerator();
@@ -55,6 +85,14 @@ void TestAllAddImpl()
     elapsed = finish - start;
     if (ADD_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "SSE2\t   addition " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    
+    start = std::chrono::high_resolution_clock::now();
+    TestAVX2AddImpl(input, output, size);
+    finish = std::chrono::high_resolution_clock::now();
+    elapsed = finish - start;
+    if (ADD_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
+    std::cout << "AVX2\t   addition " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    
     std::cout << std::endl;
 
     delete [] input;

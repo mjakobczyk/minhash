@@ -30,6 +30,36 @@ void TestSSE2XorImpl(uint64_t* input, uint64_t* output, int size)
     }
 }
 
+void TestAVXXorImpl(uint64_t* input, uint64_t* output, int size)
+{   
+    for (unsigned int i = 0; i < size; i += 4)
+    {
+        // unsupported types for integers
+        // it would bring same output as sse2
+    }
+}
+
+void TestAVX2XorImpl(uint64_t* input, uint64_t* output, int size)
+{   
+    for (unsigned int i = 0; i < size; i += 4)
+    {
+        __m256i h1, h2, h3;
+
+        h1 = _mm256_set_epi64x(
+            *(input + i + 3),
+            *(input + i + 2),
+            *(input + i + 1), 
+            *(input + i)
+        );
+
+        h2 = _mm256_set1_epi64x(0x4cf5ad432745937full);
+
+        h1 = _mm256_xor_si256(h1, h2);
+
+        _mm256_store_si256((__m256i*)&output[i], h1);
+    }
+}
+
 void TestAllXorImpl()
 {
     ArrayGenerator * arrayGenerator = new ArrayGenerator();
@@ -50,6 +80,14 @@ void TestAllXorImpl()
     elapsed = finish - start;
     if (XOR_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
     std::cout << "SSE2\t   XOR " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    
+    start = std::chrono::high_resolution_clock::now();
+    TestAVX2XorImpl(input, output, size);
+    finish = std::chrono::high_resolution_clock::now();
+    elapsed = finish - start;
+    if (XOR_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
+    std::cout << "AVX2\t   XOR " << size << " elements: " << elapsed.count() << " s" << std::endl;
+
     std::cout << std::endl;
 
     delete [] input;
