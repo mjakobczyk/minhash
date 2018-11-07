@@ -1,7 +1,7 @@
 #include "addition.h"
 #include <chrono>
 
-void TestStructuralAddImpl(uint64_t* input, uint64_t* output, int size)
+void TestStructuralAddImpl(uint64_t*& input, uint64_t*& output, int size)
 {
     for (unsigned int i = 0; i < size; i += 1)
     {
@@ -20,8 +20,6 @@ void TestSSE2AddImpl(uint64_t* input, uint64_t* output, int size)
 {   
     for (unsigned int i = 0; i < size; i += 2)
     {
-        // uint64_t out[2];
-
         __m128i h, h1, h2, h3;
         h1 = _mm_set_epi64x(*(input + i + 1), *(input + i));
         h2 = _mm_set1_epi64x(0x4cf5ad432745937full);
@@ -29,9 +27,6 @@ void TestSSE2AddImpl(uint64_t* input, uint64_t* output, int size)
         h3 = _mm_add_epi64(h1, h2);
 
         _mm_store_si128((__m128i*)&output[i], h3);
-
-        // *(output + i) = out[1];
-        // *(output + i + 1) = out[0];
     }
 }
 

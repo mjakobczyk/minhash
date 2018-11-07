@@ -23,12 +23,12 @@ void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
     // Old version - multiply 32bit value
     // h = _mm_mul_epu32(h, t1);
     // New version - own function
-    // h = this->multiply64Bit(h, t1);
+    h = this->multiply64Bit(h, t1);
 
     h = this->rotl64(h, 31);
 
     __m128i t2 =_mm_set1_epi64x(0x4cf5ad432745937full);
-    //   h = this->multiply64Bit(h, t2);
+      h = this->multiply64Bit(h, t2);
 
     __m128i t3 = _mm_set1_epi16(42);
     h1 = _mm_xor_si128(h, t3);
@@ -42,9 +42,9 @@ void minhash::SSE2::minHash(uint64_t* input, uint64_t* output, int offset)
 
     h2 = _mm_add_epi64(h2, h1);
 
-    // h1 = fmix64(h1);
+    h1 = fmix64(h1);
 
-    // h2 = fmix64(h2);
+    h2 = fmix64(h2);
 
     h1 = _mm_add_epi64(h1, h2);
 

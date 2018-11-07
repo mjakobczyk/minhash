@@ -16,26 +16,6 @@ void TestStructuralMulImpl(uint64_t* input, uint64_t* output, int size)
     }
 }
 
-inline __m128i SSE2Multiply64Bit(__m128i a, __m128i b)
-{
-    // auto ax0_ax1_ay0_ay1 = a;
-    // auto bx0_bx1_by0_by1 = b;
-    
-    // _mm_shuffle
-    // auto ax1_i_ay1_i = _mm_shuffle_epi32(ax0_ax1_ay0_ay1, _MM_SHUFFLE(3, 3, 1, 1));
-    // auto bx1_i_by1_i = _mm_shuffle_epi32(bx0_bx1_by0_by1, _MM_SHUFFLE(3, 3, 1, 1));
-
-    // auto ax0bx0_ay0by0 = _mm_mul_epi32(ax0_ax1_ay0_ay1, bx0_bx1_by0_by1);
-    // auto ax0bx1_ay0by1 = _mm_mul_epi32(ax0_ax1_ay0_ay1, bx1_i_by1_i);
-    // auto ax1bx0_ay1by0 = _mm_mul_epi32(ax1_i_ay1_i, bx0_bx1_by0_by1);
-
-    // auto ax0bx1_ay0by1_32 = _mm_slli_epi64(ax0bx1_ay0by1, 32);
-    // auto ax1bx0_ay1by0_32 = _mm_slli_epi64(ax1bx0_ay1by0, 32);
-
-    // return _mm_add_epi64(ax0bx0_ay0by0, _mm_add_epi64(ax0bx1_ay0by1_32, ax1bx0_ay1by0_32));
-    return  _mm_set1_epi64x(0x4cf5ad432745937full);
-}
-
 void TestSSE2MulImpl(uint64_t* input, uint64_t* output, int size)
 {
     for (unsigned int i = 0; i < size; i += 2)
@@ -57,13 +37,6 @@ void TestAVXMulImpl(uint64_t* input, uint64_t* output, int size)
         // unsupported types for integers
         // it would bring same output as sse2
     }
-}
-
-inline __m256i AVX2Multiply64Bit(__m256i a, __m256i b)
-{
-    // Mocked implementation
-
-    return  _mm256_set1_epi64x(0x4cf5ad432745937full);
 }
 
 void TestAVX2MulImpl(uint64_t* input, uint64_t* output, int size)

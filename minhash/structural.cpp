@@ -19,11 +19,11 @@ void minhash::Structural::minHash(uint64_t* input, uint64_t* output, int offset)
     // Perform calculations
     h = x;
 
-    // h *= 0x87c37b91114253d5ull;
+    h *= 0x87c37b91114253d5ull;
 
     h = this->rotl64(h, 31);
 
-    // h *= 0x4cf5ad432745937full;
+    h *= 0x4cf5ad432745937full;
 
     h1 = 42 ^ h;
 
@@ -35,9 +35,9 @@ void minhash::Structural::minHash(uint64_t* input, uint64_t* output, int offset)
 
     h2 += h1;
 
-    // h1 = fmix64(h1);
+    h1 = fmix64(h1);
 
-    // h2 = fmix64(h2);
+    h2 = fmix64(h2);
 
     h1 += h2;
 

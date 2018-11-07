@@ -47,7 +47,7 @@ void Application::run()
     std::cout << "Starting algorithm..." << std::endl;
 
     // Choose which Extension to run app with
-    // SSE2
+    // Scalar
     minhash::MinHash * minHash;
     minHash = this->getMinHashInstance(Extension::NONE);
     this->extension = Extension::NONE;
@@ -60,7 +60,7 @@ void Application::run()
     // this->showResults();
 	this->showSummary();
 
-    // Structural
+    // SSE2
     minHash = this->getMinHashInstance(Extension::SSE2);
     this->extension = Extension::SSE2;
     start = std::chrono::high_resolution_clock::now();
@@ -90,7 +90,6 @@ minhash::MinHash *Application::getMinHashInstance(Extension extension)
     }
     else if (extension == Extension::SSE2)
     {
-        // TODO: change mocked implementation
         minHasher = new minhash::SSE2();
     }
     else
