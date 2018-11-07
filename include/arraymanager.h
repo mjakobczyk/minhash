@@ -1,16 +1,30 @@
 #ifndef ARRAYMANAGER_H_
 #define ARRAYMANAGER_H_
+#include "arraygenerator.h"
+#include <random>
 
-template<typename T>
+#define ALIGN_VALUE 256
+
 class ArrayManager
 {
 public:
-    ArrayManager();
     ArrayManager(int);
+    ArrayManager(ArrayManager&);
+    ~ArrayManager();
+    
+    uint64_t *& getInputArray();
+    uint64_t *& getOutputArray();
+    unsigned int getSize();
 
 private:
-    T *in, *out;
-    int size;
+    uint64_t *& getAlignedInputArray();
+    uint64_t *& getAlignedOutputArray();
+
+private:
+    ArrayGenerator arrayGenerator;
+    uint64_t *input, *output;
+    unsigned int size;
+    const unsigned int aligner;
 };
 
 #endif

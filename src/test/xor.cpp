@@ -21,7 +21,10 @@ void TestSSE2XorImpl(uint64_t* input, uint64_t* output, int size)
     for (unsigned int i = 0; i < size; i += 2)
     {
         __m128i h, h1, h2;
-        h1 = _mm_set_epi64x(*(input + i + 1), *(input + i));
+        // Do not do like this - its slow!
+        // h1 = _mm_set_epi64x(*(input + i + 1), *(input + i));
+        // use load - it knows how many elements should be taken
+
         h2 = _mm_set1_epi64x(0x4cf5ad432745937full);
 
         h1 = _mm_xor_si128(h1, h2);
