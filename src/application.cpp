@@ -6,71 +6,62 @@
 #include <inttypes.h>
 
 Application::Application() :
-    arraySize(ARRAY_SIZE)
+    arrayManager(DEFAULT_ARRAY_SIZE)
+{
+    std::cout << "Creating app..";
+    this->osDetector.checkOS();
+    this->extension = this->exDetector.chooseExtension();
+    std::cout << "App ready";
+}
+
+Application::Application(int arraySize_) :
+    arrayManager(arraySize_)
 {
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
-    this->input = this->arrGenerator.generateRandomUint64Array(this->arraySize);
-    // this->output = (uint64_t*)std::_aligned_malloc(this->arraySize * sizeof(uint64_t), 16);
-    this->output = new uint64_t[this->arraySize];
 }
 
-Application::Application(int arraySize_)
+Application::~Application() 
 {
-    this->arraySize = arraySize_;
-    this->osDetector.checkOS();
-    this->extension = this->exDetector.chooseExtension();
-    this->input = this->arrGenerator.generateRandomUint64Array(this->arraySize);
-    this->output = new uint64_t[this->arraySize];
-}
 
-Application::Application(uint64_t* input_, uint64_t* output_, int arraySize_)
-{
-    this->arraySize = arraySize_;
-    this->osDetector.checkOS();
-    this->extension = this->exDetector.chooseExtension();
-    this->input = input_;
-    this->output = output_;
-}
-
-Application::~Application()
-{
-    // Not working on MacOS
-    // _aligned_free(this->input);
-    // _aligned_free(this->output);
-    delete [] this->input;
-    delete [] this->output;
 }
 
 void Application::run()
 {
-    std::cout << "Starting algorithm..." << std::endl;
+    // std::cout << "Starting algorithm..." << std::endl;
+    // minhash::MinHash * minHash;
+    std::cout << "After minhash * ";
 
-    // Choose which Extension to run app with
     // Scalar
-    minhash::MinHash * minHash;
-    minHash = this->getMinHashInstance(Extension::NONE);
-    this->extension = Extension::NONE;
+    // minHash = this->getMinHashInstance(Extension::SSE2);
+    std::cout << "After getting minhash instance";
+    this->extension = Extension::SSE2;
     auto start = std::chrono::high_resolution_clock::now();
-	minHash->count(this->input, this->output, this->arraySize);
+    std::cout << this->arrayManager.getInputArray()[0] << std::endl;
+	// minHash->count(
+    //     this->arrayManager.getInputArray(),
+    //     this->arrayManager.getOutputArray(),
+    //     this->arrayManager.getSize()
+    // );
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     this->executionTime = elapsed;
-
-    // this->showResults();
 	this->showSummary();
 
     // SSE2
-    minHash = this->getMinHashInstance(Extension::SSE2);
-    this->extension = Extension::SSE2;
-    start = std::chrono::high_resolution_clock::now();
-	minHash->count(this->input, this->output, this->arraySize);
-    finish = std::chrono::high_resolution_clock::now();
-    elapsed = finish - start;
-    this->executionTime = elapsed;
+    // minHash = this->getMinHashInstance(Extension::SSE2);
+    // this->extension = Extension::SSE2;
+    // start = std::chrono::high_resolution_clock::now();
+	// minHash->count(
+    //     this->arrayManager.getInputArray(),
+    //     this->arrayManager.getOutputArray(),
+    //     this->arrayManager.getSize()
+    // );
+    // finish = std::chrono::high_resolution_clock::now();
+    // elapsed = finish - start;
+    // this->executionTime = elapsed;
+	// this->showSummary();
 
-    // this->showResults();
-	this->showSummary();
     std::cout << std::endl << "Ending algorithm..." << std::endl;
 }
 
@@ -100,25 +91,10 @@ minhash::MinHash *Application::getMinHashInstance(Extension extension)
     return new minhash::MinHash(minHasher);
 }
 
-void Application::showResults()
-{
-    std::cout << std::endl << "Input array:" << std::endl;
-    for (unsigned int i = 0; i < this->arraySize; ++i)
-    {
-        printf("%" PRIu64 "\n", this->input[i]);
-    }
-
-    std::cout << std::endl << "Output array:" << std::endl;
-    for (unsigned int i = 0; i < this->arraySize; ++i)
-    {
-        printf("%" PRIu64 "\n", this->output[i]);
-    }
-}
-
 void Application::showSummary()
 {
     std::cout << "[SUMMARY INFO]" << std::endl;
-    std::cout << "Array size = " << this->arraySize << std::endl;
+    std::cout << "Array size = " << this->arrayManager.getSize() << std::endl;
     std::cout << "Extension: " << this->extension << std::endl;
     std::cout << "Execution time: " << this->executionTime.count() << std::endl << std::endl;
 }

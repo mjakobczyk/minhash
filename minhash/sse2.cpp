@@ -5,6 +5,7 @@
 minhash::SSE2::SSE2() : minhash::MinHasher() 
 {
     this->elementsInOneCall = 2;
+    std::cout << "Creating SSE2";
 }
 
 minhash::SSE2::~SSE2() {}

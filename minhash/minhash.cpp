@@ -12,12 +12,13 @@ void minhash::MinHash::count(uint64_t* input,uint64_t* output, int size)
     
     for (unsigned int i = 0; i < size; i += increment)
     {
-        // If size % increment != 0 - consider this case
-        // if (i + increment >= size)
-        // {
-        //   // ...
-        // }
+        // TODO
+        // Move this loop to extension implementation
+        // In this place simply call polymorphic
+        // function just once
 
         this->minHasher->minHash(input, output, i);
+        // std::cout << i << " ";
+        // if (i % 10 == 0) std::cout << std::endl;
     }
 }

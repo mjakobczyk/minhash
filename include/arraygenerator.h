@@ -8,6 +8,7 @@ class ArrayGenerator
 {
 public:
     ArrayGenerator();
+    uint64_t * generateUint64Array(int);
     uint64_t * generateRandomUint64Array(int);
 
 private:
