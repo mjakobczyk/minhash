@@ -5,64 +5,34 @@
 #include "sse2.h"
 #include <inttypes.h>
 
-Application::Application() :
-    arrayManager(DEFAULT_ARRAY_SIZE)
+Application::Application()
 {
-    std::cout << "Creating app..";
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
-    std::cout << "App ready";
+    this->arrayManager = new ArrayManager(DEFAULT_ARRAY_SIZE);
+    this->minHash = nullptr;
 }
 
-Application::Application(int arraySize_) :
-    arrayManager(arraySize_)
+Application::Application(int arraySize_)
 {
     this->osDetector.checkOS();
     this->extension = this->exDetector.chooseExtension();
+    this->arrayManager = new ArrayManager(DEFAULT_ARRAY_SIZE);
+    this->minHash = nullptr;
 }
 
 Application::~Application() 
 {
-
+    delete arrayManager;
 }
 
 void Application::run()
 {
-    // std::cout << "Starting algorithm..." << std::endl;
-    // minhash::MinHash * minHash;
-    std::cout << "After minhash * ";
+    // Scalar implementation
+    this->minhashWithExtension(Extension::NONE);
 
-    // Scalar
-    // minHash = this->getMinHashInstance(Extension::SSE2);
-    std::cout << "After getting minhash instance";
-    this->extension = Extension::SSE2;
-    auto start = std::chrono::high_resolution_clock::now();
-    std::cout << this->arrayManager.getInputArray()[0] << std::endl;
-	// minHash->count(
-    //     this->arrayManager.getInputArray(),
-    //     this->arrayManager.getOutputArray(),
-    //     this->arrayManager.getSize()
-    // );
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = finish - start;
-    this->executionTime = elapsed;
-	this->showSummary();
-
-    // SSE2
-    // minHash = this->getMinHashInstance(Extension::SSE2);
-    // this->extension = Extension::SSE2;
-    // start = std::chrono::high_resolution_clock::now();
-	// minHash->count(
-    //     this->arrayManager.getInputArray(),
-    //     this->arrayManager.getOutputArray(),
-    //     this->arrayManager.getSize()
-    // );
-    // finish = std::chrono::high_resolution_clock::now();
-    // elapsed = finish - start;
-    // this->executionTime = elapsed;
-	// this->showSummary();
-
-    std::cout << std::endl << "Ending algorithm..." << std::endl;
+    // SSE2 implementation
+    this->minhashWithExtension(Extension::SSE2);
 }
 
 minhash::MinHash *Application::getMinHashInstance(Extension extension)
@@ -91,10 +61,33 @@ minhash::MinHash *Application::getMinHashInstance(Extension extension)
     return new minhash::MinHash(minHasher);
 }
 
-void Application::showSummary()
+void Application::minhashWithExtension(Extension extension)
+{
+    this->minHash = this->getMinHashInstance(extension);
+    this->extension = extension;
+
+    std::cout << "In ";
+    auto start = std::chrono::high_resolution_clock::now();
+	minHash->count(
+        this->arrayManager->getInputArray(),
+        this->arrayManager->getOutputArray(),
+        this->arrayManager->getSize()
+    );
+    std::cout << " Out ";
+    auto finish = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = finish - start;
+
+	this->showSummary(elapsed);
+
+    delete minHash;
+    minHash = nullptr;
+}
+
+
+void Application::showSummary(std::chrono::duration<double> elapsed)
 {
     std::cout << "[SUMMARY INFO]" << std::endl;
-    std::cout << "Array size = " << this->arrayManager.getSize() << std::endl;
+    std::cout << "Array size = " << this->arrayManager->getSize() << std::endl;
     std::cout << "Extension: " << this->extension << std::endl;
-    std::cout << "Execution time: " << this->executionTime.count() << std::endl << std::endl;
+    std::cout << "Execution time: " << elapsed.count() << std::endl << std::endl;
 }

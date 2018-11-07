@@ -29,12 +29,12 @@ ArrayManager::~ArrayManager()
     delete [] this->output;
 }
 
-uint64_t * ArrayManager::getInputArray()
+uint64_t *& ArrayManager::getInputArray()
 {
-    this->getAlignedInputArray();
+    return this->getAlignedInputArray();
 }
 
-uint64_t * ArrayManager::getOutputArray()
+uint64_t *& ArrayManager::getOutputArray()
 {
     return this->getAlignedOutputArray();
 }
@@ -45,20 +45,20 @@ unsigned int ArrayManager::getSize()
 }
 
 
-uint64_t * ArrayManager::getAlignedInputArray()
+uint64_t *& ArrayManager::getAlignedInputArray()
 {
     uint64_t * alignedInputArray = this->input;
     // TODO:
     // Add data aligning to the nearest 256 bits
     // alignedInputArray = (*alignedInputArray + 1023) % 1024;
-    return alignedInputArray;
+    return this->input;
 }
 
-uint64_t * ArrayManager::getAlignedOutputArray()
+uint64_t *& ArrayManager::getAlignedOutputArray()
 {
     uint64_t * alignedOutputArray = this->output;
     // TODO:
     // Add data aligning to the nearest 256 bits
     // alignedOutputArray = (alignedOutputArray + 1023) % 1024;
-    return alignedOutputArray;
+    return this->output;
 }

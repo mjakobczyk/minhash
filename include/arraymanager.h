@@ -12,13 +12,13 @@ public:
     ArrayManager(ArrayManager&);
     ~ArrayManager();
     
-    uint64_t * getInputArray();
-    uint64_t * getOutputArray();
+    uint64_t *& getInputArray();
+    uint64_t *& getOutputArray();
     unsigned int getSize();
 
 private:
-    uint64_t * getAlignedInputArray();
-    uint64_t * getAlignedOutputArray();
+    uint64_t *& getAlignedInputArray();
+    uint64_t *& getAlignedOutputArray();
 
 private:
     ArrayGenerator arrayGenerator;

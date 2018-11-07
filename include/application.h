@@ -7,7 +7,7 @@
 #include <chrono>
 #include "minhash.h"
 
-#define DEFAULT_ARRAY_SIZE 1000
+#define DEFAULT_ARRAY_SIZE 10000000
 #define DEBUG 0
 
 class Application
@@ -22,14 +22,15 @@ public:
 private:
     minhash::MinHash *getMinHashInstance(Extension);
     std::chrono::duration<double> getExecutionTime();
-    void showSummary();
+    void minhashWithExtension(Extension);
+    void showSummary(std::chrono::duration<double>);
 
 private:
-    OSDetector osDetector;
+    ArrayManager * arrayManager;
     ExtensionDetector exDetector;
-    ArrayManager arrayManager;
     Extension extension;
-    std::chrono::duration<double> executionTime;
+    minhash::MinHash * minHash;
+    OSDetector osDetector;
 };
 
 #endif
