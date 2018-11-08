@@ -31,7 +31,6 @@ namespace minhash
             // Hashes in between the process to calculate
             uint64_t h, h1, h2;
 
-            // Perform calculations
             h = x;
 
             h *= 0x87c37b91114253d5ull;
@@ -50,9 +49,14 @@ namespace minhash
 
             h2 += h1;
 
+            // this->printValue(h1); // Dotad jest to samo
             h1 = fmix64(h1);
+            // std::cout << "h1 = ";
+            // this->printValue(h1);
 
-            h2 = fmix64(h2);
+            // h2 = fmix64(h2);
+            // std::cout << "h2 = ";
+            // this->printValue(h2);
 
             h1 += h2;
 
@@ -60,15 +64,23 @@ namespace minhash
 
             // Return XOR as a final hash
             output[offset] = h1 ^ h2;
+
+            // std::cout << "Final: " << output[offset] << std::endl;
+            std::cout << std::endl;
         }
 
-        uint64_t inline fmix64(uint64_t element)
+        uint64_t inline fmix64(uint64_t k)
         {
+            // std::cout << "Fmix IN" << std::endl;
+            this->printValue(k);
             k ^= k >> 33;
             k *= 0xff51afd7ed558ccdull;
+            this->printValue(k);
             k ^= k >> 33;
             k *= 0xc4ceb9fe1a85ec53ull;
             k ^= k >> 33;
+            // this->printValue(k);
+            // std::cout << "Fmix OUT" << std::endl;
 
             return k;
         }

@@ -36,7 +36,6 @@ namespace minhash
                 );
 
                 __m256i t1 =_mm256_set1_epi64x(0x87c37b91114253d5ull);
-
                 h = this->multiply64Bit(h, t1);
 
                 h = this->rotl64(h, 31);
@@ -44,21 +43,24 @@ namespace minhash
                 __m256i t2 =_mm256_set1_epi64x(0x4cf5ad432745937full);
                 h = this->multiply64Bit(h, t2);
 
-                __m256i t3 = _mm256_set1_epi16(42);
-                h1 = _mm256_xor_si256(h, t3);
+                __m256i t3 = _mm256_set1_epi64x(42);
+                h1 = _mm256_xor_si256(t3, h);
 
-                __m256i t4 = _mm256_set1_epi32(this->k_div_4);
-                h1 = _mm256_xor_si256(h, t4);
+                __m256i t4 = _mm256_set1_epi64x(this->k_div_4);
+                h1 = _mm256_xor_si256(h1, t4);
 
                 h2 = _mm256_set1_epi64x(this->c42_xor_k_div_4);
-
                 h1 = _mm256_add_epi64(h1, h2);
 
                 h2 = _mm256_add_epi64(h2, h1);
 
                 h1 = fmix64(h1);
+                // std::cout << "h1 = ";
+                // this->printValue(h1);
 
-                h2 = fmix64(h2);
+                // h2 = fmix64(h2);
+                // std::cout << "h2 = ";
+                // this->printValue(h2);
 
                 h1 = _mm256_add_epi64(h1, h2);
 
@@ -68,34 +70,47 @@ namespace minhash
                 h3 = _mm256_xor_si256(h1, h2);
 
                 _mm256_store_si256((__m256i*)&output[offset], h3);            
+
+                // std::cout << "Final: ";
+                // this->printValue(h3);
+                // std::cout << std::endl;
+                std::cout << std::endl;
             }
 
             __m256i inline fmix64(__m256i x)
             {
+                // std::cout << "Fmix IN" << std::endl;
+                // this->printValue(x);
                 __m256i t1;
+                this->printValue(x);
                 // k >> 33
                 t1 = _mm256_srli_epi64(x, 33);
                 // k ^= k
                 x = _mm256_xor_si256(x, t1);
+                // this->printValue(x);
+                // this->printValue(x);
                 // k >> 33
                 t1 = _mm256_srli_epi64(x, 33);
                 // k ^= k
                 x = _mm256_xor_si256(x, t1);
                 // k *= 0xff51afd7ed558ccdull;
                 __m256i t2 =_mm256_set1_epi64x(0xff51afd7ed558ccdull);
-                this->multiply64Bit(x, t2);
+                x = this->multiply64Bit(x, t2);
+                this->printValue(x);
                 // k >> 33
                 t1 = _mm256_srli_epi64(x, 33);
                 // k ^= k
                 x = _mm256_xor_si256(x, t1);
                 // k *= 0xc4ceb9fe1a85ec53ull;
                 __m256i t3 =_mm256_set1_epi64x(0xc4ceb9fe1a85ec53ull);
-                this->multiply64Bit(x, t3);
+                x = this->multiply64Bit(x, t3);
                 // k >> 33
                 t1 = _mm256_srli_epi64(x, 33);
                 // k ^= k
                 x = _mm256_xor_si256(x, t1);
 
+                // this->printValue(x);
+                // std::cout << "Fmix OUT" << std::endl;
                 return x;
             }
 
@@ -115,6 +130,8 @@ namespace minhash
                 __m256i prod    = _mm256_add_epi64(prodll,prodlh3);       // a0Lb0L+(a0Lb0H+a0Hb0L)<<32, a1Lb1L+(a1Lb1H+a1Hb1L)<<32
                 return  prod;
             }
+
+            void printValue(__m256i var);
 
     };
 };
