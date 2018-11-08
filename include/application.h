@@ -23,7 +23,7 @@ private:
     minhash::MinHash *getMinHashInstance(Extension);
     std::chrono::duration<double> getExecutionTime();
     void minhashWithExtension(Extension);
-    void showSummary(std::chrono::duration<double>);
+    void showSummary(Extension, std::chrono::duration<double>);
 
 private:
     ArrayManager * arrayManager;

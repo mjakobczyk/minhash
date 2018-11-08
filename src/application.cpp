@@ -3,7 +3,9 @@
 #include "minhasher.h"
 #include "structural.h"
 #include "sse2.h"
+#include "avx2.h"
 #include <inttypes.h>
+#include <string.h>
 
 Application::Application()
 {
@@ -29,10 +31,25 @@ Application::~Application()
 void Application::run()
 {
     // Scalar implementation
+     this->minhashWithExtension(Extension::NONE);
+
+    // Scalar implementation
     this->minhashWithExtension(Extension::NONE);
+    
+    // Scalar implementation
+     this->minhashWithExtension(Extension::NONE);
 
     // SSE2 implementation
     this->minhashWithExtension(Extension::SSE2);
+
+    // SSE2 implementation
+    this->minhashWithExtension(Extension::SSE2);
+
+    // AVX2 implementation
+    this->minhashWithExtension(Extension::AVX2);
+
+    // AVX2 implementation
+    this->minhashWithExtension(Extension::AVX2);
 }
 
 minhash::MinHash *Application::getMinHashInstance(Extension extension)
@@ -42,7 +59,7 @@ minhash::MinHash *Application::getMinHashInstance(Extension extension)
     if (extension == Extension::AVX2)
     {
         // TODO: change mocked implementation
-        minHasher = new minhash::Structural();
+        minHasher = new minhash::AVX2();
     }
     else if (extension == Extension::AVX)
     {
@@ -66,28 +83,42 @@ void Application::minhashWithExtension(Extension extension)
     this->minHash = this->getMinHashInstance(extension);
     this->extension = extension;
 
-    std::cout << "In ";
     auto start = std::chrono::high_resolution_clock::now();
 	minHash->count(
         this->arrayManager->getInputArray(),
         this->arrayManager->getOutputArray(),
         this->arrayManager->getSize()
     );
-    std::cout << " Out ";
+
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
 
-	this->showSummary(elapsed);
+	this->showSummary(extension, elapsed);
 
     delete minHash;
     minHash = nullptr;
 }
 
 
-void Application::showSummary(std::chrono::duration<double> elapsed)
+void Application::showSummary(Extension extension, std::chrono::duration<double> elapsed)
 {
     std::cout << "[SUMMARY INFO]" << std::endl;
     std::cout << "Array size = " << this->arrayManager->getSize() << std::endl;
-    std::cout << "Extension: " << this->extension << std::endl;
-    std::cout << "Execution time: " << elapsed.count() << std::endl << std::endl;
+    std::string ext;
+    switch (extension)
+    {
+        case Extension::SSE2:
+            ext = "SSE2";
+            break;
+        case Extension::AVX:
+        case Extension::AVX2:
+            ext = "AVX2";
+            break;
+        case Extension::NONE:
+        default:
+            ext = "Scalar";
+            break;
+    }
+    std::cout << "Extension: " << ext << std::endl;
+    std::cout << "Execution time: " << elapsed.count() << "s" << std::endl << std::endl;
 }
