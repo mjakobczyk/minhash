@@ -52,12 +52,8 @@ namespace minhash
             h2 = _mm_add_epi64(h2, h1);
 
             h1 = fmix64(h1);
-            // std::cout << "h1 = ";
-            // this->printValue(h1);
 
-            // h2 = fmix64(h2);
-            // std::cout << "h2 = ";
-            // this->printValue(h2);
+            h2 = fmix64(h2);
 
             h1 = _mm_add_epi64(h1, h2);
 
@@ -66,58 +62,30 @@ namespace minhash
             // Return XOR as a final hash
             h3 = _mm_xor_si128(h1, h2);
 
-            // _mm_store_si128((__m128i*)out, h3);
             _mm_store_si128((__m128i*)&output[offset], h3);
 
-            // std::cout << "Final: ";
-            // this->printValue(h3);
-            // std::cout << std::endl;
-            std::cout << std::endl;
+            std::cout << "Final: ";
+            this->printValue(h3);
+            std::cout << std::endl << std::endl;
         }
 
         __m128i inline fmix64(__m128i x)
         {
-            // std::cout << "Fmix IN" << std::endl;
-            // this->printValue(x);
-            __m128i t1;
-
-            // k >> 33
-            // t1 = _mm_srli_epi64(x, 33);
-
-            this->printValue(x);
-            // k ^= k
-            x = _mm_xor_si128(x, _mm_srli_epi64(x, 33));
-            // this->printValue(x);
-
-            // k >> 33
-            t1 = _mm_srli_epi64(x, 33);
-
-            // k ^= k
+            // k ^= k >> 33
             x = _mm_xor_si128(x, _mm_srli_epi64(x, 33));
             
             // k *= 0xff51afd7ed558ccdull;
-            // __m128i t2 = _mm_set1_epi64x(0xff51afd7ed558ccdull);
             x = this->multiply64Bit(x, _mm_set1_epi64x(0xff51afd7ed558ccdull));
-            this->printValue(x);
 
-            // k >> 33
-            t1 = _mm_srli_epi64(x, 33);
-
-            // k ^= k
+            // k ^= k >> 33
             x = _mm_xor_si128(x, _mm_srli_epi64(x, 33));
 
             // k *= 0xc4ceb9fe1a85ec53ull;
-            __m128i t3 =_mm_set1_epi64x(0xc4ceb9fe1a85ec53ull);
-            x = this->multiply64Bit(x, t3);
+            x = this->multiply64Bit(x, _mm_set1_epi64x(0xc4ceb9fe1a85ec53ull));
 
-            // k >> 33
-            t1 = _mm_srli_epi64(x, 33);
+            // k ^= k >> 33
+            x = _mm_xor_si128(x, _mm_srli_epi64(x, 33));
 
-            // k ^= k
-            x = _mm_xor_si128(x, t1);
-
-            // this->printValue(x);
-            // std::cout << "Fmix OUT" << std::endl;
             return x;
         }
 
