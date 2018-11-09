@@ -31,7 +31,7 @@ Application::~Application()
 void Application::run()
 {
     // Scalar implementation
-    //  this->minhashWithExtension(Extension::NONE);
+     this->minhashWithExtension(Extension::NONE);
 
     // Scalar implementation
     this->minhashWithExtension(Extension::NONE);
@@ -93,7 +93,6 @@ void Application::minhashWithExtension(Extension extension)
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     uint64_t * out = this->arrayManager->getOutputArray();
-    // std::cout << out[0] << " " << out[1] << std::endl;
 	this->showSummary(extension, elapsed);
 
     delete minHash;

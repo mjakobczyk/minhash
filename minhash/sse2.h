@@ -59,14 +59,9 @@ namespace minhash
 
             h2 = _mm_add_epi64(h2, h1);
 
-            // Return XOR as a final hash
             h3 = _mm_xor_si128(h1, h2);
 
             _mm_store_si128((__m128i*)&output[offset], h3);
-
-            std::cout << "Final: ";
-            this->printValue(h3);
-            std::cout << std::endl << std::endl;
         }
 
         __m128i inline fmix64(__m128i x)

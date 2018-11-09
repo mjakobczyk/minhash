@@ -61,14 +61,9 @@ namespace minhash
 
             h2 = _mm256_add_epi64(h2, h1);
 
-            // Return XOR as a final hash
             h3 = _mm256_xor_si256(h1, h2);
 
             _mm256_store_si256((__m256i*)&output[offset], h3);            
-
-            std::cout << "Final: ";
-            this->printValue(h3);
-            std::cout << std::endl << std::endl;
         }
 
         __m256i inline fmix64(__m256i x)
