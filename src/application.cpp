@@ -61,7 +61,7 @@ minhash::MinHash *Application::getMinHashInstance(Extension extension)
     else if (extension == Extension::AVX)
     {
         // TODO: change mocked implementation
-        minHasher = new minhash::Structural();
+        minHasher = new minhash::SSE2();
     }
     else if (extension == Extension::SSE2)
     {
