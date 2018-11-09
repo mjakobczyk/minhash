@@ -27,11 +27,12 @@ namespace minhash
         void inline countPack(uint64_t* input, uint64_t* output, int offset)
         {
             __m128i h, h1, h2, h3;
-
-            h = _mm_set_epi64x(*(input + offset + 1), *(input + offset));
+            h = _mm_set_epi64x(
+                *(input + offset + 1),
+                *(input + offset)
+            );
 
             __m128i t1 =_mm_set1_epi64x(0x87c37b91114253d5ull);
-
             h = this->multiply64Bit(h, t1);
 
             h = this->rotl64(h, 31);
@@ -39,14 +40,13 @@ namespace minhash
             __m128i t2 =_mm_set1_epi64x(0x4cf5ad432745937full);
             h = this->multiply64Bit(h, t2);
 
-            __m128i t3 = _mm_set1_epi16(42);
-            h1 = _mm_xor_si128(h, t3);
+            __m128i t3 = _mm_set1_epi64x(42);
+            h1 = _mm_xor_si128(t3, h);
 
-            __m128i t4 = _mm_set1_epi32(this->k_div_4);
-            h1 = _mm_xor_si128(h, t4);
+            __m128i t4 = _mm_set1_epi64x(this->k_div_4);
+            h1 = _mm_xor_si128(h1, t4);
 
             h2 = _mm_set1_epi64x(this->c42_xor_k_div_4);
-
             h1 = _mm_add_epi64(h1, h2);
 
             h2 = _mm_add_epi64(h2, h1);
@@ -62,35 +62,29 @@ namespace minhash
             // Return XOR as a final hash
             h3 = _mm_xor_si128(h1, h2);
 
-            // _mm_store_si128((__m128i*)out, h3);
             _mm_store_si128((__m128i*)&output[offset], h3);
+
+            std::cout << "Final: ";
+            this->printValue(h3);
+            std::cout << std::endl << std::endl;
         }
 
         __m128i inline fmix64(__m128i x)
         {
-            __m128i t1;
-            // k >> 33
-            t1 = _mm_srli_epi64(x, 33);
-            // k ^= k
-            x = _mm_xor_si128(x, t1);
-            // k >> 33
-            t1 = _mm_srli_epi64(x, 33);
-            // k ^= k
-            x = _mm_xor_si128(x, t1);
+            // k ^= k >> 33
+            x = _mm_xor_si128(x, _mm_srli_epi64(x, 33));
+            
             // k *= 0xff51afd7ed558ccdull;
-            __m128i t2 =_mm_set1_epi64x(0xff51afd7ed558ccdull);
-            this->multiply64Bit(x, t2);
-            // k >> 33
-            t1 = _mm_srli_epi64(x, 33);
-            // k ^= k
-            x = _mm_xor_si128(x, t1);
+            x = this->multiply64Bit(x, _mm_set1_epi64x(0xff51afd7ed558ccdull));
+
+            // k ^= k >> 33
+            x = _mm_xor_si128(x, _mm_srli_epi64(x, 33));
+
             // k *= 0xc4ceb9fe1a85ec53ull;
-            __m128i t3 =_mm_set1_epi64x(0xc4ceb9fe1a85ec53ull);
-            this->multiply64Bit(x, t3);
-            // k >> 33
-            t1 = _mm_srli_epi64(x, 33);
-            // k ^= k
-            x = _mm_xor_si128(x, t1);
+            x = this->multiply64Bit(x, _mm_set1_epi64x(0xc4ceb9fe1a85ec53ull));
+
+            // k ^= k >> 33
+            x = _mm_xor_si128(x, _mm_srli_epi64(x, 33));
 
             return x;
         }

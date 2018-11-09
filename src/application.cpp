@@ -31,16 +31,10 @@ Application::~Application()
 void Application::run()
 {
     // Scalar implementation
-     this->minhashWithExtension(Extension::NONE);
+    //  this->minhashWithExtension(Extension::NONE);
 
     // Scalar implementation
     this->minhashWithExtension(Extension::NONE);
-    
-    // Scalar implementation
-     this->minhashWithExtension(Extension::NONE);
-
-    // SSE2 implementation
-    this->minhashWithExtension(Extension::SSE2);
 
     // SSE2 implementation
     this->minhashWithExtension(Extension::SSE2);
@@ -48,8 +42,14 @@ void Application::run()
     // AVX2 implementation
     this->minhashWithExtension(Extension::AVX2);
 
-    // AVX2 implementation
-    this->minhashWithExtension(Extension::AVX2);
+    // // SSE2 implementation
+    // this->minhashWithExtension(Extension::SSE2);
+
+    // // AVX2 implementation
+    // this->minhashWithExtension(Extension::AVX2);
+
+    // // AVX2 implementation
+    // this->minhashWithExtension(Extension::AVX2);
 }
 
 minhash::MinHash *Application::getMinHashInstance(Extension extension)
@@ -92,7 +92,8 @@ void Application::minhashWithExtension(Extension extension)
 
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-
+    uint64_t * out = this->arrayManager->getOutputArray();
+    // std::cout << out[0] << " " << out[1] << std::endl;
 	this->showSummary(extension, elapsed);
 
     delete minHash;
