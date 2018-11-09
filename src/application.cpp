@@ -39,17 +39,14 @@ void Application::run()
     // SSE2 implementation
     this->minhashWithExtension(Extension::SSE2);
 
+    // SSE2 implementation
+    this->minhashWithExtension(Extension::SSE2);
+
     // AVX2 implementation
     this->minhashWithExtension(Extension::AVX2);
 
-    // // SSE2 implementation
-    // this->minhashWithExtension(Extension::SSE2);
-
-    // // AVX2 implementation
-    // this->minhashWithExtension(Extension::AVX2);
-
-    // // AVX2 implementation
-    // this->minhashWithExtension(Extension::AVX2);
+    // AVX2 implementation
+    this->minhashWithExtension(Extension::AVX2);
 }
 
 minhash::MinHash *Application::getMinHashInstance(Extension extension)
