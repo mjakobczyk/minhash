@@ -59,24 +59,15 @@ namespace minhash
 
             // Return XOR as a final hash
             output[offset] = h1 ^ h2;
-
-            std::cout << "Final: " << output[offset] << std::endl;
-            std::cout << std::endl;
         }
 
         uint64_t inline fmix64(uint64_t k)
         {
-            // std::cout << "Fmix IN" << std::endl;
-            // this->printValue(k);
             k ^= k >> 33;
-            // this->printValue(k);
             k *= 0xff51afd7ed558ccdull;
-            // this->printValue(k);
             k ^= k >> 33;
             k *= 0xc4ceb9fe1a85ec53ull;
             k ^= k >> 33;
-            // this->printValue(k);
-            // std::cout << "Fmix OUT" << std::endl;
 
             return k;
         }

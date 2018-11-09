@@ -61,32 +61,36 @@ namespace minhash
 
             h2 = _mm256_add_epi64(h2, h1);
 
-            // Return XOR as a final hash
             h3 = _mm256_xor_si256(h1, h2);
 
             _mm256_store_si256((__m256i*)&output[offset], h3);            
-
-            std::cout << "Final: ";
-            this->printValue(h3);
-            std::cout << std::endl << std::endl;
         }
 
         __m256i inline fmix64(__m256i x)
         {
-            // k ^= k >> 33
-            x = _mm256_xor_si256(x, _mm256_srli_epi64(x, 33));
-
+            __m256i t1;
+            // k >> 33
+            t1 = _mm256_srli_epi64(x, 33);
+            // k ^= k
+            x = _mm256_xor_si256(x, t1);
+            // k >> 33
+            t1 = _mm256_srli_epi64(x, 33);
+            // k ^= k
+            x = _mm256_xor_si256(x, t1);
             // k *= 0xff51afd7ed558ccdull;
-            x = this->multiply64Bit(x, _mm256_set1_epi64x(0xff51afd7ed558ccdull));
-            
-            // k ^= k >> 33
-            x = _mm256_xor_si256(x,  _mm256_srli_epi64(x, 33));
-
+            __m256i t2 =_mm256_set1_epi64x(0xff51afd7ed558ccdull);
+            this->multiply64Bit(x, t2);
+            // k >> 33
+            t1 = _mm256_srli_epi64(x, 33);
+            // k ^= k
+            x = _mm256_xor_si256(x, t1);
             // k *= 0xc4ceb9fe1a85ec53ull;
-            x = this->multiply64Bit(x, _mm256_set1_epi64x(0xc4ceb9fe1a85ec53ull));
-
-            // k ^= k >> 33
-            x = _mm256_xor_si256(x, _mm256_srli_epi64(x, 33));
+            __m256i t3 =_mm256_set1_epi64x(0xc4ceb9fe1a85ec53ull);
+            this->multiply64Bit(x, t3);
+            // k >> 33
+            t1 = _mm256_srli_epi64(x, 33);
+            // k ^= k
+            x = _mm256_xor_si256(x, t1);
 
             return x;
         }
