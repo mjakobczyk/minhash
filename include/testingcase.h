@@ -8,6 +8,7 @@ class TestingCase
 {
 public:
     TestingCase(Extension, unsigned int);
+    // TestingCase(TestingCase&);
     Extension getExtension();
     unsigned int getArraySize();
     

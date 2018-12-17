@@ -1,21 +1,28 @@
 #include "testingresult.h"
 
-    TestingCase TestingResult::getTestingCase()
-    {
-        return this->testingCase;
-    }
+TestingResult::TestingResult(TestingCase testingCase_, std::chrono::duration<double> executionTime_) :
+    testingCase(testingCase_)
+{
+    // this->testingCase = TestingCase(testingCase_);
+    this->executionTime = executionTime_;
+}
 
-    void TestingResult::setTestingCase(const TestingCase testingCase_)
-    {
-        this->testingCase = testingCase_;
-    }
+TestingCase TestingResult::getTestingCase()
+{
+    return this->testingCase;
+}
 
-    std::chrono::duration<double> TestingResult::getExecutionTime()
-    {
-        return this->executionTime;
-    }
+void TestingResult::setTestingCase(const TestingCase testingCase_)
+{
+    this->testingCase = testingCase_;
+}
 
-    void TestingResult::setExecutionTime(const std::chrono::duration<double> & executionTime_)
-    {
-        this->executionTime = executionTime_;
-    }
+std::chrono::duration<double> TestingResult::getExecutionTime()
+{
+    return this->executionTime;
+}
+
+void TestingResult::setExecutionTime(const std::chrono::duration<double> & executionTime_)
+{
+    this->executionTime = executionTime_;
+}

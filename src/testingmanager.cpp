@@ -29,11 +29,15 @@ TestingResult TestingManager::runSingleTest(TestingCase test)
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
 
+    TestingResult testingResult = TestingResult(test, elapsed);
+
     delete this->arrayManager;
     this->arrayManager = nullptr;
 
     delete this->minHash;
     this->minHash = nullptr;
+
+    return testingResult;
 }
 
 std::vector<TestingResult> & TestingManager::getTestingResults()

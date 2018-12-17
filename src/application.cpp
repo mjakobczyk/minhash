@@ -52,8 +52,13 @@ void Application::run()
     // this->minhashWithExtension(Extension::AVX2);
     TestingManager * testingManager = new TestingManager();
     std::vector<TestingCase> tests;
-    TestingCase case1 = TestingCase(Extension::AVX2, 100000);
+    TestingCase case4 = TestingCase(Extension::AVX2, 10);
+    TestingCase case1 = TestingCase(Extension::NONE, 10000000);
+    TestingCase case2 = TestingCase(Extension::SSE2, 10000000);
+    TestingCase case3 = TestingCase(Extension::AVX2, 10000000);
     tests.push_back(case1);
+    tests.push_back(case2);
+    tests.push_back(case3);
     testingManager->runAllTests(tests);
     auto results = testingManager->getTestingResults();
     for (auto & result : results)
