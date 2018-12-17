@@ -1,6 +1,6 @@
 #include "testingcase.h"
 
-TestingCase::TestingCase(const Extension extension , const unsigned int & size)
+TestingCase::TestingCase(Extension extension, unsigned int size)
 {
     this->extension = extension;
     this->arraySize = size;

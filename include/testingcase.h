@@ -7,7 +7,7 @@
 class TestingCase
 {
 public:
-    TestingCase(const Extension, const unsigned int &);
+    TestingCase(Extension, unsigned int);
     Extension getExtension();
     unsigned int getArraySize();
     

@@ -4,6 +4,9 @@
 #include "structural.h"
 #include "sse2.h"
 #include "avx2.h"
+#include "testingmanager.h"
+#include "testingcase.h"
+#include "testingresult.h"
 #include <inttypes.h>
 #include <string.h>
 
@@ -30,23 +33,33 @@ Application::~Application()
 
 void Application::run()
 {
-    // Scalar implementation
-     this->minhashWithExtension(Extension::NONE);
+    // // Scalar implementation
+    //  this->minhashWithExtension(Extension::NONE);
 
-    // Scalar implementation
-    this->minhashWithExtension(Extension::NONE);
+    // // Scalar implementation
+    // this->minhashWithExtension(Extension::NONE);
 
-    // SSE2 implementation
-    this->minhashWithExtension(Extension::SSE2);
+    // // SSE2 implementation
+    // this->minhashWithExtension(Extension::SSE2);
 
-    // SSE2 implementation
-    this->minhashWithExtension(Extension::SSE2);
+    // // SSE2 implementation
+    // this->minhashWithExtension(Extension::SSE2);
 
-    // AVX2 implementation
-    this->minhashWithExtension(Extension::AVX2);
+    // // AVX2 implementation
+    // this->minhashWithExtension(Extension::AVX2);
 
-    // AVX2 implementation
-    this->minhashWithExtension(Extension::AVX2);
+    // // AVX2 implementation
+    // this->minhashWithExtension(Extension::AVX2);
+    TestingManager * testingManager = new TestingManager();
+    std::vector<TestingCase> tests;
+    TestingCase case1 = TestingCase(Extension::AVX2, 100000);
+    tests.push_back(case1);
+    testingManager->runAllTests(tests);
+    auto results = testingManager->getTestingResults();
+    for (auto & result : results)
+    {
+        std::cout << result.getExecutionTime().count() << std::endl;
+    }
 }
 
 minhash::MinHash *Application::getMinHashInstance(Extension extension)
@@ -89,7 +102,6 @@ void Application::minhashWithExtension(Extension extension)
 
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
-    uint64_t * out = this->arrayManager->getOutputArray();
 	this->showSummary(extension, elapsed);
 
     delete minHash;
