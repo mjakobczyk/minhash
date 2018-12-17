@@ -3,38 +3,51 @@
 #include <fstream>
 #include <string>
 
-FileManager::FileManager(const std::string & fileName_) : fileName(fileName_) {}
+FileManager::FileManager(const std::string & input, const std::string & output)
+	: inputFileName(input), outputFileName(output) {}
 
-bool FileManager::readDataFromFile()
+std::vector<TestingCase> & FileManager::readDataFromInputFile()
 {
+	std::vector<TestingCase> testingCases;
 	std::ifstream inputFile;
-	inputFile.open(this->fileName, std::ios::in);
+	inputFile.open(this->inputFileName, std::ios::in);
 
 	if (!inputFile.good())
 	{
-		std::cout << "Error with file in directory:" << std::endl;
-		return false;
+		std::cout << "Error with input file" << std::endl;
+		return testingCases;
 	}
 
-	int lineNumber = 1;
-
-	while (!inputFile.eof())
+	for (unsigned int lineNumber = 0; !inputFile.eof(); ++lineNumber)
 	{
 		std::string line;
 		std::getline(inputFile, line, '\n');
 
 		if (!line.length())
 		{
-			std::cout << "Error with string in line number " << lineNumber << " !" << std::endl;
+			std::cout << "Error with line number " << lineNumber << std::endl;
 			++lineNumber; 
             continue;
 		}
-
-        
-		++lineNumber; // Inkrementacja licznika linii
 	}
 
-	inputFile.close(); // Na koniec zamykamy plik
+	// int lineNumber = 1;
 
-    return true;
+	// while (!inputFile.eof())
+	// {
+	// 	std::string line;
+	// 	std::getline(inputFile, line, '\n');
+
+	// 	if (!line.length())
+	// 	{
+	// 		std::cout << "Error with line number " << lineNumber << std::endl;
+	// 		++lineNumber; 
+    //         continue;
+	// 	}
+
+	// 	++lineNumber;
+	// }
+
+	inputFile.close(); 
+    return testingCases;
 }
