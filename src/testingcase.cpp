@@ -6,12 +6,6 @@ TestingCase::TestingCase(Extension extension, unsigned int size)
     this->arraySize = size;
 }
 
-// TestingCase::TestingCase(TestingCase & testingCase)
-// {
-//     this->arraySize = testingCase.getArraySize();
-//     this->extension = testingCase.getExtension();
-// }
-
 Extension TestingCase::getExtension()
 {
     return this->extension;

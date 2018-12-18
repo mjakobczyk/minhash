@@ -3,7 +3,6 @@
 TestingResult::TestingResult(TestingCase testingCase_, std::chrono::duration<double> executionTime_) :
     testingCase(testingCase_)
 {
-    // this->testingCase = TestingCase(testingCase_);
     this->executionTime = executionTime_;
 }
 

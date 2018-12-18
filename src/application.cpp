@@ -14,6 +14,7 @@ Application::Application(int argc, char* argv[])
 {
     this->argManager = new ArgManager(argc, argv);
     this->testingManager = new TestingManager();
+    this->fileManager = nullptr;
     this->osDetector = new OSDetector();
     this->extensionDetector = new ExtensionDetector();
 }
@@ -22,6 +23,8 @@ Application::~Application()
 {
     delete this->argManager;
     delete this->testingManager;
+    delete this->osDetector;
+    delete this->extensionDetector;
 }
 
 void Application::run()
@@ -30,26 +33,44 @@ void Application::run()
     this->extensionDetector->checkAvailableExtensions();
 
     std::string inputFile = this->argManager->getInputFileName();
-    std::string outputFile = this->argManager->getOutputtFileName();
+    std::string outputFile = "results.txt";
 
     if (inputFile == "")
     {
-        std::cout << "No input file provided. Running default tests." << std::endl;
+        std::cout << "Incorrect input file. Running default tests." << std::endl;
         this->runDefaultTests();
+        return;
     }
-    else
+
+    std::cout << "Input file was correct. Processing..." << std::endl;
+
+    this->fileManager = new FileManager(inputFile, outputFile);
+    auto tests = this->fileManager->readDataFromInputFile();
+
+    if (tests.empty())
     {
-        // ...
+        std::cout << "No data was provided. Running default tests." << std::endl;
+        this->runDefaultTests();
+        return;
     }
+
+    this->testingManager->runAllTests(tests);
+    auto results = this->testingManager->getTestingResults();
+    auto didWrite = this->fileManager->writeDataToOutputFile(results);
+    if (!didWrite)
+    {
+        std::cout << "Failed writing results to output file." << std::endl;
+    }
+
+    std::cout << "Successfully wrote data to output file." << std::endl;
 }
 
 void Application::runDefaultTests()
 {
     std::vector<TestingCase> tests;
-    TestingCase case4 = TestingCase(Extension::AVX2, 10);
-    TestingCase case1 = TestingCase(Extension::NONE, 10000000);
-    TestingCase case2 = TestingCase(Extension::SSE2, 10000000);
-    TestingCase case3 = TestingCase(Extension::AVX2, 10000000);
+    TestingCase case1 = TestingCase(Extension::NONE, DEFAULT_ARRAY_SIZE);
+    TestingCase case2 = TestingCase(Extension::SSE2, DEFAULT_ARRAY_SIZE);
+    TestingCase case3 = TestingCase(Extension::AVX2, DEFAULT_ARRAY_SIZE);
     tests.push_back(case1);
     tests.push_back(case2);
     tests.push_back(case3);
@@ -57,29 +78,28 @@ void Application::runDefaultTests()
     auto results = testingManager->getTestingResults();
     for (auto & result : results)
     {
-        std::cout << result.getExecutionTime().count() << std::endl;
+        this->showSummary(result);
     }
 }
 
-// void Application::showSummary(Extension extension, std::chrono::duration<double> elapsed)
-// {
-//     std::cout << "[SUMMARY INFO]" << std::endl;
-//     std::cout << "Array size = " << this->arrayManager->getSize() << std::endl;
-//     std::string ext;
-//     switch (extension)
-//     {
-//         case Extension::SSE2:
-//             ext = "SSE2";
-//             break;
-//         case Extension::AVX:
-//         case Extension::AVX2:
-//             ext = "AVX2";
-//             break;
-//         case Extension::NONE:
-//         default:
-//             ext = "Scalar";
-//             break;
-//     }
-//     std::cout << "Extension: " << ext << std::endl;
-//     std::cout << "Execution time: " << elapsed.count() << "s" << std::endl << std::endl;
-// }
+void Application::showSummary(TestingResult testingResult)
+{
+    std::string ext;
+    switch (testingResult.getTestingCase().getExtension())
+    {
+        case Extension::SSE2:
+            ext = "SSE2";
+            break;
+        case Extension::AVX:
+        case Extension::AVX2:
+            ext = "AVX2";
+            break;
+        case Extension::NONE:
+        default:
+            ext = "Scalar";
+            break;
+    }
+
+    std::cout << ext << "\t" << testingResult.getExecutionTime().count() 
+              << "s\t" << testingResult.getTestingCase().getArraySize() << std::endl;
+}

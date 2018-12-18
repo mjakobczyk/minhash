@@ -7,6 +7,7 @@
 #include "minhash.h"
 #include "argmanager.h"
 #include "testingmanager.h"
+#include "filemanager.h"
 #include <chrono>
 
 #define DEFAULT_ARRAY_SIZE 10000000
@@ -23,10 +24,12 @@ public:
 
 private:
     std::chrono::duration<double> getExecutionTime();
+    void showSummary(TestingResult testingResult);
 
 private:
     ArgManager * argManager;
     ExtensionDetector * extensionDetector;
+    FileManager * fileManager;
     OSDetector * osDetector;
     TestingManager * testingManager;
 };

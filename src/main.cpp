@@ -16,8 +16,6 @@ int main(int argc, char* argv[])
 	Application application(argc, argv);
 	application.run();
 
-	// ArgManager * manager = new ArgManager(argc, argv);
-
     char stopper;
 	std::cin >> stopper;
 

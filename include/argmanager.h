@@ -8,12 +8,12 @@ class ArgManager
 {
 public:
     ArgManager(int, char*[]);
-    std::string & getInputFileName();
-    std::string & getOutputtFileName();
+    std::string getInputFileName();
+    std::string getOutputtFileName();
     
 private:
     int size;
-    char* arguments[];
+    char** arguments;
 };
 
 #endif
