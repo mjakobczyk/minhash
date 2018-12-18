@@ -6,6 +6,7 @@ class TestingResult
 {
 public:
     TestingResult(TestingCase, std::chrono::duration<double>);
+    
     TestingCase getTestingCase();
     void setTestingCase(const TestingCase);
     std::chrono::duration<double> getExecutionTime();

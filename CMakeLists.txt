@@ -27,6 +27,7 @@ include_directories(
 
 set(SOURCES 
     src/main.cpp
+    src/argmanager.cpp
     src/extensiondetector.cpp
     src/extensionmanager.cpp
     src/osdetector.cpp

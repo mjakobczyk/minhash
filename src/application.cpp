@@ -10,47 +10,41 @@
 #include <inttypes.h>
 #include <string.h>
 
-Application::Application()
+Application::Application(int argc, char* argv[])
 {
-    this->osDetector.checkOS();
-    this->extension = this->exDetector.chooseExtension();
-    this->arrayManager = new ArrayManager(DEFAULT_ARRAY_SIZE);
-    this->minHash = nullptr;
-}
-
-Application::Application(int arraySize_)
-{
-    this->osDetector.checkOS();
-    this->extension = this->exDetector.chooseExtension();
-    this->arrayManager = new ArrayManager(DEFAULT_ARRAY_SIZE);
-    this->minHash = nullptr;
+    this->argManager = new ArgManager(argc, argv);
+    this->testingManager = new TestingManager();
+    this->osDetector = new OSDetector();
+    this->extensionDetector = new ExtensionDetector();
 }
 
 Application::~Application() 
 {
-    delete arrayManager;
+    delete this->argManager;
+    delete this->testingManager;
 }
 
 void Application::run()
 {
-    // // Scalar implementation
-    //  this->minhashWithExtension(Extension::NONE);
+    this->osDetector->checkOS();
+    this->extensionDetector->checkAvailableExtensions();
 
-    // // Scalar implementation
-    // this->minhashWithExtension(Extension::NONE);
+    std::string inputFile = this->argManager->getInputFileName();
+    std::string outputFile = this->argManager->getOutputtFileName();
 
-    // // SSE2 implementation
-    // this->minhashWithExtension(Extension::SSE2);
+    if (inputFile == "")
+    {
+        std::cout << "No input file provided. Running default tests." << std::endl;
+        this->runDefaultTests();
+    }
+    else
+    {
+        // ...
+    }
+}
 
-    // // SSE2 implementation
-    // this->minhashWithExtension(Extension::SSE2);
-
-    // // AVX2 implementation
-    // this->minhashWithExtension(Extension::AVX2);
-
-    // // AVX2 implementation
-    // this->minhashWithExtension(Extension::AVX2);
-    TestingManager * testingManager = new TestingManager();
+void Application::runDefaultTests()
+{
     std::vector<TestingCase> tests;
     TestingCase case4 = TestingCase(Extension::AVX2, 10);
     TestingCase case1 = TestingCase(Extension::NONE, 10000000);
@@ -59,7 +53,7 @@ void Application::run()
     tests.push_back(case1);
     tests.push_back(case2);
     tests.push_back(case3);
-    testingManager->runAllTests(tests);
+    this->testingManager->runAllTests(tests);
     auto results = testingManager->getTestingResults();
     for (auto & result : results)
     {
@@ -67,72 +61,25 @@ void Application::run()
     }
 }
 
-minhash::MinHash *Application::getMinHashInstance(Extension extension)
-{
-    minhash::MinHasher *minHasher;
-
-    if (extension == Extension::AVX2)
-    {
-        // TODO: change mocked implementation
-        minHasher = new minhash::AVX2();
-    }
-    else if (extension == Extension::AVX)
-    {
-        // TODO: change mocked implementation
-        minHasher = new minhash::SSE2();
-    }
-    else if (extension == Extension::SSE2)
-    {
-        minHasher = new minhash::SSE2();
-    }
-    else
-    {
-        minHasher = new minhash::Structural();
-    }
-
-    return new minhash::MinHash(minHasher);
-}
-
-void Application::minhashWithExtension(Extension extension)
-{
-    this->minHash = this->getMinHashInstance(extension);
-    this->extension = extension;
-
-    auto start = std::chrono::high_resolution_clock::now();
-	minHash->count(
-        this->arrayManager->getInputArray(),
-        this->arrayManager->getOutputArray(),
-        this->arrayManager->getSize()
-    );
-
-    auto finish = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> elapsed = finish - start;
-	this->showSummary(extension, elapsed);
-
-    delete minHash;
-    minHash = nullptr;
-}
-
-
-void Application::showSummary(Extension extension, std::chrono::duration<double> elapsed)
-{
-    std::cout << "[SUMMARY INFO]" << std::endl;
-    std::cout << "Array size = " << this->arrayManager->getSize() << std::endl;
-    std::string ext;
-    switch (extension)
-    {
-        case Extension::SSE2:
-            ext = "SSE2";
-            break;
-        case Extension::AVX:
-        case Extension::AVX2:
-            ext = "AVX2";
-            break;
-        case Extension::NONE:
-        default:
-            ext = "Scalar";
-            break;
-    }
-    std::cout << "Extension: " << ext << std::endl;
-    std::cout << "Execution time: " << elapsed.count() << "s" << std::endl << std::endl;
-}
+// void Application::showSummary(Extension extension, std::chrono::duration<double> elapsed)
+// {
+//     std::cout << "[SUMMARY INFO]" << std::endl;
+//     std::cout << "Array size = " << this->arrayManager->getSize() << std::endl;
+//     std::string ext;
+//     switch (extension)
+//     {
+//         case Extension::SSE2:
+//             ext = "SSE2";
+//             break;
+//         case Extension::AVX:
+//         case Extension::AVX2:
+//             ext = "AVX2";
+//             break;
+//         case Extension::NONE:
+//         default:
+//             ext = "Scalar";
+//             break;
+//     }
+//     std::cout << "Extension: " << ext << std::endl;
+//     std::cout << "Execution time: " << elapsed.count() << "s" << std::endl << std::endl;
+// }
