@@ -39,7 +39,6 @@ set(SOURCES
     src/testingresult.cpp
     src/testingmanager.cpp
     src/instrset_detect.cpp # GNU license
-    src/simdpoc.cpp # DELETE only for testing purposes
 )
 
 set (TESTS

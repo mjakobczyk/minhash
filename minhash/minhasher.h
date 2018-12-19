@@ -11,7 +11,7 @@ namespace minhash
         MinHasher(int, int);
         virtual ~MinHasher();
         
-        virtual inline void minHash(uint64_t*, uint64_t*, int) = 0;
+        virtual void minHash(uint64_t*, uint64_t*, int) = 0;
         int getElementsInOneCall();
 
     protected:

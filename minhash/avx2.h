@@ -14,7 +14,7 @@ namespace minhash
         AVX2();
         virtual ~AVX2();
 
-        virtual void minHash(uint64_t* input, uint64_t* output, int size) override
+        virtual inline void minHash(uint64_t* input, uint64_t* output, int size) override
         {
             for (unsigned int i = 0; i < size; i += this->getElementsInOneCall())
             {

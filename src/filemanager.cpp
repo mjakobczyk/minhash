@@ -26,7 +26,6 @@ std::vector<TestingCase> FileManager::readDataFromInputFile()
 
 		if (!line.length())
 		{
-			std::cout << "Error with line " << lineNumber << ". - too short." << std::endl;
             continue;
 		}
 
@@ -79,7 +78,7 @@ bool FileManager::writeDataToOutputFile(std::vector<TestingResult> & results)
 			outputFile << "Scalar\t";
 		}
 
-		outputFile << result.getTestingCase().getArraySize() << "\t";
+		outputFile << result.getTestingCase().getArraySize() << "\t\t";
 		outputFile << result.getExecutionTime().count() << "s" << std::endl;
 	}
 

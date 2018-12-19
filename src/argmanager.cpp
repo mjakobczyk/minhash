@@ -32,25 +32,24 @@ std::string ArgManager::getInputFileName()
 
 std::string ArgManager::getOutputtFileName()
 {
-    std::string name = "";
+    for (unsigned int i = 1; i < this->size; ++i)
+    {
+        std::string arg = std::string(this->arguments[i]);
 
-    // for (unsigned int i = 1; i < this->size; ++i)
-    // {
-    //     std::string arg = std::string(this->arguments[i]);
+        if (arg == "-o")
+        {
+            if (i + 1 < this->size)
+            {
+                std::string name = std::string(arguments[i + 1]);
+				std::ofstream file;
+                file.open(std::string(arguments[i + 1]), std::ios::trunc | std::ios::ate);
+				if (file.good())
+                {
+                    return name;
+                }
+            }
+        }
+    }
 
-    //     if (arg == "-o")
-    //     {
-    //         if (i + 1 < this->size)
-    //         {
-	// 			ofstream file;
-    //             file.open(filename, ios::trunc | ios::ate); //PrÛba otwarcia pliku wyjúciowego
-	// 			if (file.good())
-    //             {
-    //                 name = std::string(arguments[i + 1);
-    //             }
-    //         }
-    //     }
-    // }
-
-    return name;
+    return "";
 }

@@ -33,7 +33,6 @@ void Application::run()
     this->extensionDetector->checkAvailableExtensions();
 
     std::string inputFile = this->argManager->getInputFileName();
-    std::string outputFile = "results.txt";
 
     if (inputFile == "")
     {
@@ -42,7 +41,13 @@ void Application::run()
         return;
     }
 
-    std::cout << "Input file was correct. Processing..." << std::endl;
+    std::string outputFile = this->argManager->getOutputtFileName();
+
+    if (outputFile == "")
+    {
+        std::cout << "Incorrect output file. Creating file: output.txt." << std::endl;
+        outputFile = "output.txt";
+    }
 
     this->fileManager = new FileManager(inputFile, outputFile);
     auto tests = this->fileManager->readDataFromInputFile();
@@ -100,6 +105,6 @@ void Application::showSummary(TestingResult testingResult)
             break;
     }
 
-    std::cout << ext << "\t" << testingResult.getExecutionTime().count() 
-              << "s\t" << testingResult.getTestingCase().getArraySize() << std::endl;
+    std::cout << ext << "\t" <<  testingResult.getTestingCase().getArraySize()
+              << "\t" << testingResult.getExecutionTime().count() << "s" << std::endl;
 }

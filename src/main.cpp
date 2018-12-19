@@ -16,8 +16,5 @@ int main(int argc, char* argv[])
 	Application application(argc, argv);
 	application.run();
 
-    char stopper;
-	std::cin >> stopper;
-
 	return 0;
 }
