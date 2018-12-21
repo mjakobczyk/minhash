@@ -82,6 +82,27 @@ bool FileManager::writeDataToOutputFile(std::vector<TestingResult> & results)
 		outputFile << result.getExecutionTime().count() << "s" << std::endl;
 	}
 
+	outputFile.close();
+	return true;
+}
+
+bool FileManager::writeDataToOutputFile(std::vector<std::chrono::duration<double>> & executions)
+{
+	std::ofstream outputFile;
+	outputFile.open(this->outputFileName, std::ios::trunc | std::ios::out);
+
+	if (!outputFile.good())
+	{
+		std::cout << "Error with output file." << std::endl;
+		return false;
+	}
+
+	for (auto & execution : executions)
+	{
+		outputFile << execution.count() << std::endl;
+	}
+
+	outputFile.close();
 	return true;
 }
 

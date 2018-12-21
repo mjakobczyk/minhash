@@ -21,10 +21,14 @@ public:
 
     void run();
     void runDefaultTests();
+    void runPerformanceTests();
+    TestingResult runSpecificPerformanceTest(TestingCase, int, const std::string &);
 
 private:
     std::chrono::duration<double> getExecutionTime();
-    void showSummary(TestingResult testingResult);
+    void showTestingResultSummary(TestingResult testingResult);
+    void showAllTestingResultsSummary(std::vector<TestingResult> &);
+    std::string getStringFromExtension(Extension extension);
 
 private:
     ArgManager * argManager;
