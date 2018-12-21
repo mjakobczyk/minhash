@@ -4,8 +4,11 @@
 #include "extensiondetector.h"
 #include "osdetector.h"
 #include "minhasher.h"
-#include <chrono>
 #include "minhash.h"
+#include "argmanager.h"
+#include "testingmanager.h"
+#include "filemanager.h"
+#include <chrono>
 
 #define DEFAULT_ARRAY_SIZE 10000000
 #define DEBUG 0
@@ -13,24 +16,22 @@
 class Application
 {
 public:
-    Application();
-    Application(int);
+    Application(int, char*[]);
     ~Application();
 
     void run();
+    void runDefaultTests();
 
 private:
-    minhash::MinHash *getMinHashInstance(Extension);
     std::chrono::duration<double> getExecutionTime();
-    void minhashWithExtension(Extension);
-    void showSummary(Extension, std::chrono::duration<double>);
+    void showSummary(TestingResult testingResult);
 
 private:
-    ArrayManager * arrayManager;
-    ExtensionDetector exDetector;
-    Extension extension;
-    minhash::MinHash * minHash;
-    OSDetector osDetector;
+    ArgManager * argManager;
+    ExtensionDetector * extensionDetector;
+    FileManager * fileManager;
+    OSDetector * osDetector;
+    TestingManager * testingManager;
 };
 
 #endif

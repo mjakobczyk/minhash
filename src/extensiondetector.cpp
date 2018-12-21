@@ -6,38 +6,38 @@
 
 std::vector<Extension> ExtensionDetector::checkAvailableExtensions()
 {
-    std::cout << "> [SIMD]:" << std::endl;
+    std::cout << "> [SIMD]: ";
     std::vector<Extension> availableExtensions;
 
     int extensionSupport = instrset_detect();
     
     if (isSSE2Available(extensionSupport))
     {
-        std::cout << ">>> [SSE2] available" << std::endl;
+        std::cout << "SSE2 available,";
         availableExtensions.push_back(Extension::SSE2);
     }
     else
     {
-        std::cout << ">>> [SSE2] not available" << std::endl;
+        std::cout << "SSE2 not available,";
 
     }
     if (isAVXAvailable(extensionSupport))
     {
-        std::cout << ">>> [AVX]  available" << std::endl;
+        std::cout << " AVX available,";
         availableExtensions.push_back(Extension::AVX);
     }
     else
     {
-        std::cout << ">>> [AVX]  not available" << std::endl;
+        std::cout << " AVX not available,";
     }
     if (isAVX2Available(extensionSupport))
     {
-        std::cout << ">>> [AVX2] available" << std::endl;
+        std::cout << " AVX2 available" << std::endl;
         availableExtensions.push_back(Extension::AVX2);
     }
     else
     {
-        std::cout << ">>> [AVX2] not available" << std::endl;
+        std::cout << " AVX2 not available" << std::endl;
     }
 
     return availableExtensions;

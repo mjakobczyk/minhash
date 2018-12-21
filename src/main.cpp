@@ -4,19 +4,17 @@
 #include "test/multiplication.h"
 #include "test/xor.h"
 #include "test/rotl.h"
+#include "argmanager.h"
 
-int main()
+int main(int argc, char* argv[])
 {	
 	// TestAllAddImpl();
 	// TestAllMulImpl();
 	// TestAllXorImpl();
 	// TestAllRotlImpl();
 
-	Application application;
+	Application application(argc, argv);
 	application.run();
-
-    char stopper;
-	std::cin >> stopper;
 
 	return 0;
 }

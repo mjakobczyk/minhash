@@ -27,14 +27,18 @@ include_directories(
 
 set(SOURCES 
     src/main.cpp
+    src/argmanager.cpp
     src/extensiondetector.cpp
+    src/extensionmanager.cpp
     src/osdetector.cpp
     src/filemanager.cpp
     src/arraygenerator.cpp
     src/application.cpp
     src/arraymanager.cpp
+    src/testingcase.cpp
+    src/testingresult.cpp
+    src/testingmanager.cpp
     src/instrset_detect.cpp # GNU license
-    src/simdpoc.cpp # DELETE only for testing purposes
 )
 
 set (TESTS
