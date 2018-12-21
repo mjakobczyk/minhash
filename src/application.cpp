@@ -106,5 +106,5 @@ void Application::showSummary(TestingResult testingResult)
     }
 
     std::cout << ext << "\t" <<  testingResult.getTestingCase().getArraySize()
-              << "\t" << testingResult.getExecutionTime().count() << "s" << std::endl;
+              << "  " << testingResult.getExecutionTime().count() << "s" << std::endl;
 }

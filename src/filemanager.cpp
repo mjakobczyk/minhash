@@ -78,7 +78,7 @@ bool FileManager::writeDataToOutputFile(std::vector<TestingResult> & results)
 			outputFile << "Scalar\t";
 		}
 
-		outputFile << result.getTestingCase().getArraySize() << "\t\t";
+		outputFile << result.getTestingCase().getArraySize() << "  ";
 		outputFile << result.getExecutionTime().count() << "s" << std::endl;
 	}
 

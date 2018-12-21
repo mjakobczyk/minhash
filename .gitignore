@@ -35,6 +35,9 @@ program
 # Build
 /build
 
+# Data
+/data
+
 # VSCode
 .vscode
 
