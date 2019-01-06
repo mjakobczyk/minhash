@@ -14,7 +14,7 @@ namespace minhash
         AVX2();
         virtual ~AVX2();
 
-        virtual inline void minHash(uint64_t* input, uint64_t* output, int size) override
+        virtual inline void minHash(uint64_t*& input, uint64_t*& output, int size) override
         {
             for (unsigned int i = 0; i < size; i += this->getElementsInOneCall())
             {
@@ -23,23 +23,25 @@ namespace minhash
         }
 
     private:
-        void inline countPack(uint64_t* input, uint64_t* output, int offset)
+        void inline countPack(uint64_t*& input, uint64_t*& output, int offset)
         {
             __m256i h, h1, h2, h3;
 
-            h = _mm256_set_epi64x(
-                *(input + offset + 3),
-                *(input + offset + 2),
-                *(input + offset + 1), 
-                *(input + offset)
-            );
+            // Alternative way of loading data
+            // h = _mm256_set_epi64x(
+            //     *(input + offset + 3),
+            //     *(input + offset + 2),
+            //     *(input + offset + 1), 
+            //     *(input + offset)
+            // );
 
-            __m256i t1 =_mm256_set1_epi64x(0x87c37b91114253d5ull);
+            h = _mm256_loadu_si256((__m256i*)&input[offset]);
+
+            __m256i t1 =_mm256_set1_epi64x(this->firstConstValue);
             h = this->multiply64Bit(h, t1);
-
             h = this->rotl64(h, 31);
 
-            __m256i t2 =_mm256_set1_epi64x(0x4cf5ad432745937full);
+            __m256i t2 =_mm256_set1_epi64x(this->secondConstValue);
             h = this->multiply64Bit(h, t2);
 
             __m256i t3 = _mm256_set1_epi64x(42);
@@ -47,20 +49,16 @@ namespace minhash
 
             __m256i t4 = _mm256_set1_epi64x(this->k_div_4);
             h1 = _mm256_xor_si256(h1, t4);
-
+        
             h2 = _mm256_set1_epi64x(this->c42_xor_k_div_4);
             h1 = _mm256_add_epi64(h1, h2);
-
             h2 = _mm256_add_epi64(h2, h1);
 
             h1 = fmix64(h1);
-
             h2 = fmix64(h2);
-
+            
             h1 = _mm256_add_epi64(h1, h2);
-
             h2 = _mm256_add_epi64(h2, h1);
-
             h3 = _mm256_xor_si256(h1, h2);
 
             _mm256_store_si256((__m256i*)&output[offset], h3);            
@@ -78,14 +76,14 @@ namespace minhash
             // k ^= k
             x = _mm256_xor_si256(x, t1);
             // k *= 0xff51afd7ed558ccdull;
-            __m256i t2 =_mm256_set1_epi64x(0xff51afd7ed558ccdull);
+            __m256i t2 =_mm256_set1_epi64x(this->thirdConstValue);
             this->multiply64Bit(x, t2);
             // k >> 33
             t1 = _mm256_srli_epi64(x, 33);
             // k ^= k
             x = _mm256_xor_si256(x, t1);
             // k *= 0xc4ceb9fe1a85ec53ull;
-            __m256i t3 =_mm256_set1_epi64x(0xc4ceb9fe1a85ec53ull);
+            __m256i t3 =_mm256_set1_epi64x(this->fourthConstValue);
             this->multiply64Bit(x, t3);
             // k >> 33
             t1 = _mm256_srli_epi64(x, 33);

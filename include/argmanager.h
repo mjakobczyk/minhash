@@ -11,6 +11,7 @@ public:
     std::string getInputFileName();
     std::string getOutputtFileName();
     bool shouldRunPerformanceTests();
+    bool shouldRunUnitTests();
     
 private:
     int size;

@@ -75,7 +75,7 @@ void TestAllXorImpl()
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     if (XOR_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
-    std::cout << "Structural XOR " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    std::cout << "Scalar\t   XOR " << size << " elements: " << elapsed.count() << " s" << std::endl;
     
     start = std::chrono::high_resolution_clock::now();
     TestSSE2XorImpl(input, output, size);

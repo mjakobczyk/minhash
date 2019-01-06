@@ -81,7 +81,7 @@ void TestAllRotlImpl()
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     if (ROTL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
-    std::cout << "Structural Rotl " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    std::cout << "Scalar\t   Rotl " << size << " elements: " << elapsed.count() << " s" << std::endl;
     
     start = std::chrono::high_resolution_clock::now();
     TestSSE2RotlImpl(input, output, size);

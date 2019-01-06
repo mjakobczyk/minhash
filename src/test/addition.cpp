@@ -72,7 +72,7 @@ void TestAllAddImpl()
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     if (ADD_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
-    std::cout << "Structural addition " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    std::cout << "Scalar\t   addition " << size << " elements: " << elapsed.count() << " s" << std::endl;
     
     start = std::chrono::high_resolution_clock::now();
     TestSSE2AddImpl(input, output, size);

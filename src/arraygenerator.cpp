@@ -6,7 +6,7 @@ ArrayGenerator::ArrayGenerator() : seed(time(0)), engine(seed), distribution(0, 
 }
 uint64_t * ArrayGenerator::generateUint64Array(int size_)
 {   
-    uint64_t * array = new uint64_t[size_];
+    uint64_t * array = new uint64_t[size_]();
     return array;
 }
 
