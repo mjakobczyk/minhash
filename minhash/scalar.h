@@ -9,13 +9,13 @@
 
 namespace minhash
 {
-    class Structural : public minhash::MinHasher
+    class Scalar : public minhash::MinHasher
     {
     public:
-        Structural();
-        virtual ~Structural();
+        Scalar();
+        virtual ~Scalar();
 
-        virtual inline void minHash(uint64_t* input, uint64_t* output, int size) override
+        virtual inline void minHash(uint64_t*& input, uint64_t*& output, int size) override
         {
             for (unsigned int i = 0; i < size; i += this->getElementsInOneCall())
             {
@@ -32,29 +32,17 @@ namespace minhash
             uint64_t h, h1, h2;
 
             h = x;
-
-            h *= 0x87c37b91114253d5ull;
-
+            h *= this->firstConstValue;
             h = this->rotl64(h, 31);
-
-            h *= 0x4cf5ad432745937full;
-
+            h *= this->secondConstValue;
             h1 = 42 ^ h;
-
             h1 ^= this->k_div_4; //ceil(k / 4);
-
             h2 = this->c42_xor_k_div_4; // 42 ^ ceil(k / 4);
-
             h1 += h2;
-
             h2 += h1;
-
             h1 = fmix64(h1);
-
             h2 = fmix64(h2);
-
             h1 += h2;
-
             h2 += h1;
 
             // Return XOR as a final hash
@@ -64,9 +52,9 @@ namespace minhash
         uint64_t inline fmix64(uint64_t k)
         {
             k ^= k >> 33;
-            k *= 0xff51afd7ed558ccdull;
+            k *= this->thirdConstValue;
             k ^= k >> 33;
-            k *= 0xc4ceb9fe1a85ec53ull;
+            k *= this->fourthConstValue;
             k ^= k >> 33;
 
             return k;
@@ -78,7 +66,6 @@ namespace minhash
         }
 
         void printValue(uint64_t);
-
     };
 };
 

@@ -2,7 +2,7 @@
 #include "minhasher.h"
 #include "sse2.h"
 #include "avx2.h"
-#include "structural.h"
+#include "scalar.h"
 
 minhash::MinHash * ExtensionManager::getMinHashInstance(Extension extension)
 {
@@ -22,7 +22,7 @@ minhash::MinHash * ExtensionManager::getMinHashInstance(Extension extension)
     }
     else
     {
-        minHasher = new minhash::Structural();
+        minHasher = new minhash::Scalar();
     }
 
     return new minhash::MinHash(minHasher);

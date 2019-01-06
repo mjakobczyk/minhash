@@ -31,34 +31,15 @@ ArrayManager::~ArrayManager()
 
 uint64_t *& ArrayManager::getInputArray()
 {
-    return this->getAlignedInputArray();
+    return this->input;
 }
 
 uint64_t *& ArrayManager::getOutputArray()
 {
-    return this->getAlignedOutputArray();
+    return this->output;
 }
 
 unsigned int ArrayManager::getSize()
 {
     return this->size;
-}
-
-
-uint64_t *& ArrayManager::getAlignedInputArray()
-{
-    uint64_t * alignedInputArray = this->input;
-    // TODO:
-    // Add data aligning to the nearest 256 bits
-    // alignedInputArray = (*alignedInputArray + 1023) % 1024;
-    return this->input;
-}
-
-uint64_t *& ArrayManager::getAlignedOutputArray()
-{
-    uint64_t * alignedOutputArray = this->output;
-    // TODO:
-    // Add data aligning to the nearest 256 bits
-    // alignedOutputArray = (alignedOutputArray + 1023) % 1024;
-    return this->output;
 }

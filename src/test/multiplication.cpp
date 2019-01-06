@@ -72,7 +72,7 @@ void TestAllMulImpl()
     auto finish = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = finish - start;
     if (MUL_DEBUG) std::cout << output[0] << "\t" << output[1] << std::endl;
-    std::cout << "Structural multiplication " << size << " elements: " << elapsed.count() << " s" << std::endl;
+    std::cout << "Scalar\t   multiplication " << size << " elements: " << elapsed.count() << " s" << std::endl;
 
     start = std::chrono::high_resolution_clock::now();
     TestSSE2MulImpl(input, output, size);

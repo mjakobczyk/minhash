@@ -10,6 +10,7 @@ class TestingManager
 {
 public:
     TestingManager();
+    ~TestingManager();
     void runAllTests(std::vector<TestingCase>&);
     std::vector<TestingResult> & getTestingResults();
 

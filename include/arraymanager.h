@@ -17,10 +17,6 @@ public:
     unsigned int getSize();
 
 private:
-    uint64_t *& getAlignedInputArray();
-    uint64_t *& getAlignedOutputArray();
-
-private:
     ArrayGenerator arrayGenerator;
     uint64_t *input, *output;
     unsigned int size;

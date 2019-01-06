@@ -1,7 +1,7 @@
 #include "application.h"
 #include "extension.h"
 #include "minhasher.h"
-#include "structural.h"
+#include "scalar.h"
 #include "sse2.h"
 #include "avx2.h"
 #include "testingmanager.h"
@@ -9,6 +9,10 @@
 #include "testingresult.h"
 #include <inttypes.h>
 #include <string.h>
+#include "test/addition.h"
+#include "test/multiplication.h"
+#include "test/xor.h"
+#include "test/rotl.h"
 
 Application::Application(int argc, char* argv[])
 {
@@ -34,7 +38,18 @@ void Application::run()
 
     if (this->argManager->shouldRunPerformanceTests())
     {
+        std::cout << "Running performance tests..." << std::endl;
         this->runPerformanceTests();
+        std::cout << "Completed performance tests." << std::endl;
+        return;
+    }
+
+    if (this->argManager->shouldRunUnitTests())
+    {
+        TestAllAddImpl();
+        TestAllMulImpl();
+        TestAllXorImpl();
+        TestAllRotlImpl();
         return;
     }
 
@@ -96,21 +111,23 @@ void Application::runDefaultTests()
 void Application::runPerformanceTests()
 {
     std::vector<TestingResult> results;
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 10000), 100, "scalar-10000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 10000), 100, "sse2-10000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 10000), 100, "avx2-10000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 100000), 100, "scalar-100000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 100000), 100, "sse2-100000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 100000), 100, "avx2-100000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 1000000), 100, "scalar-1000000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 1000000), 100, "sse2-1000000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 1000000), 100, "avx2-1000000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 10000000), 100, "scalar-10000000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 10000000), 100, "sse2-10000000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 10000000), 100, "avx2-10000000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 100000000), 100, "scalar-100000000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 100000000), 100, "sse2-100000000arr-100t.txt"));
-    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 100000000), 100, "avx2-100000000arr-100t.txt"));
+    std::cout << "Completed steps (out of 15): ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 10000), 100, "scalar-10000arr-100t.txt")); std::cout << "1 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 10000), 100, "sse2-10000arr-100t.txt")); std::cout << "2 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 10000), 100, "avx2-10000arr-100t.txt")); std::cout << "3 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 100000), 100, "scalar-100000arr-100t.txt")); std::cout << "4 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 100000), 100, "sse2-100000arr-100t.txt")); std::cout << "5 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 100000), 100, "avx2-100000arr-100t.txt")); std::cout << "6 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 1000000), 100, "scalar-1000000arr-100t.txt"));  std::cout << "7 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 1000000), 100, "sse2-1000000arr-100t.txt")); std::cout << "8 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 1000000), 100, "avx2-1000000arr-100t.txt")); std::cout << "9 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 10000000), 100, "scalar-10000000arr-100t.txt")); std::cout << "10 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 10000000), 100, "sse2-10000000arr-100t.txt")); std::cout << "11 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 10000000), 100, "avx2-10000000arr-100t.txt")); std::cout << "12 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::NONE, 100000000), 100, "scalar-100000000arr-100t.txt")); std::cout << "13 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::SSE2, 100000000), 100, "sse2-100000000arr-100t.txt")); std::cout << "14 ";
+    results.push_back(this->runSpecificPerformanceTest(TestingCase(Extension::AVX2, 100000000), 100, "avx2-100000000arr-100t.txt")); std::cout << "15 ";
+    std::cout << std::endl;
     this->showAllTestingResultsSummary(results);
 }
 
@@ -125,6 +142,7 @@ TestingResult Application::runSpecificPerformanceTest(TestingCase testingCase, i
     TestingManager * performanceTestingManager = new TestingManager();
     performanceTestingManager->runAllTests(tests);
     auto results = performanceTestingManager->getTestingResults();
+    delete performanceTestingManager;
 
     std::vector<std::chrono::duration<double>> executions;
     std::chrono::duration<double> sumOfExecutions;
@@ -134,7 +152,7 @@ TestingResult Application::runSpecificPerformanceTest(TestingCase testingCase, i
         executions.push_back(result.getExecutionTime());
     }
 
-    std::chrono::duration<double> averageExecution = sumOfExecutions / executions.size();
+    std::chrono::duration<double> averageExecution = (std::chrono::duration<double>) sumOfExecutions / executions.size();
     TestingResult testingResult = TestingResult(testingCase, averageExecution);
 
     FileManager * performanceFileManager = new FileManager("", resultingFileName);

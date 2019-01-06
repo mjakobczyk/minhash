@@ -68,3 +68,18 @@ bool ArgManager::shouldRunPerformanceTests()
 
     return false;
 }
+
+bool ArgManager::shouldRunUnitTests()
+{
+        for (unsigned int i = 1; i < this->size; ++i)
+    {
+        std::string arg = std::string(this->arguments[i]);
+
+        if (arg == "-test")
+        {
+            return true;
+        }
+    }
+
+    return false;
+}

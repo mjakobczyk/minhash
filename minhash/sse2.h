@@ -5,8 +5,6 @@
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
-#define DEBUG 0
-
 namespace minhash
 {
     class SSE2 : public minhash::MinHasher
@@ -15,7 +13,7 @@ namespace minhash
         SSE2();
         virtual ~SSE2();
 
-        virtual inline void minHash(uint64_t* input, uint64_t* output, int size) override
+        virtual inline void minHash(uint64_t*& input, uint64_t*& output, int size) override
         {
             for (unsigned int i = 0; i < size; i += this->getElementsInOneCall())
             {
@@ -27,17 +25,20 @@ namespace minhash
         void inline countPack(uint64_t* input, uint64_t* output, int offset)
         {
             __m128i h, h1, h2, h3;
-            h = _mm_set_epi64x(
-                *(input + offset + 1),
-                *(input + offset)
-            );
 
-            __m128i t1 =_mm_set1_epi64x(0x87c37b91114253d5ull);
+            // Alternative way of loading data
+            // h = _mm_set_epi64x(
+            //     *(input + offset + 1),
+            //     *(input + offset)
+            // );
+
+            h = _mm_loadu_si128((__m128i*)&input[offset]);
+
+            __m128i t1 =_mm_set1_epi64x(this->firstConstValue);
             h = this->multiply64Bit(h, t1);
-
             h = this->rotl64(h, 31);
 
-            __m128i t2 =_mm_set1_epi64x(0x4cf5ad432745937full);
+            __m128i t2 =_mm_set1_epi64x(this->secondConstValue);
             h = this->multiply64Bit(h, t2);
 
             __m128i t3 = _mm_set1_epi64x(42);
@@ -45,20 +46,15 @@ namespace minhash
 
             __m128i t4 = _mm_set1_epi64x(this->k_div_4);
             h1 = _mm_xor_si128(h1, t4);
-
             h2 = _mm_set1_epi64x(this->c42_xor_k_div_4);
             h1 = _mm_add_epi64(h1, h2);
-
             h2 = _mm_add_epi64(h2, h1);
 
             h1 = fmix64(h1);
-
             h2 = fmix64(h2);
 
             h1 = _mm_add_epi64(h1, h2);
-
             h2 = _mm_add_epi64(h2, h1);
-
             h3 = _mm_xor_si128(h1, h2);
 
             _mm_store_si128((__m128i*)&output[offset], h3);
@@ -76,14 +72,14 @@ namespace minhash
             // k ^= k
             x = _mm_xor_si128(x, t1);
             // k *= 0xff51afd7ed558ccdull;
-            __m128i t2 =_mm_set1_epi64x(0xff51afd7ed558ccdull);
+            __m128i t2 =_mm_set1_epi64x(this->thirdConstValue);
             this->multiply64Bit(x, t2);
             // k >> 33
             t1 = _mm_srli_epi64(x, 33);
             // k ^= k
             x = _mm_xor_si128(x, t1);
             // k *= 0xc4ceb9fe1a85ec53ull;
-            __m128i t3 =_mm_set1_epi64x(0xc4ceb9fe1a85ec53ull);
+            __m128i t3 =_mm_set1_epi64x(this->fourthConstValue);
             this->multiply64Bit(x, t3);
             // k >> 33
             t1 = _mm_srli_epi64(x, 33);
