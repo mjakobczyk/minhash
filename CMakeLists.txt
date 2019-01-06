@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Name of the project is minhash
-project (minhash)
+project (MinHash)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx2")
@@ -13,12 +13,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 set(MINHASH_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/minhash)
 
 add_subdirectory(minhash)
-
-# Set the output folder where your program will be created
-# set(CMAKE_BINARY_DIR ${{PROJECT_SOURCE_DIR}/bin)
-# set(CMAKE_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
-# set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-# set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 include_directories(
     include
@@ -48,8 +42,8 @@ set (TESTS
     src/test/rotl.cpp
 )
 
-add_executable(minhash ${SOURCES} ${TESTS})
+add_executable(program ${SOURCES} ${TESTS})
 
-target_link_libraries(minhash minhash_lib)
+target_link_libraries(program minhash_lib)
 
-add_dependencies(minhash minhash)
+# add_dependencies(program minhash)
