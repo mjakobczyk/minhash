@@ -9,11 +9,11 @@
 
 namespace minhash
 {
-    class Structural : public minhash::MinHasher
+    class Scalar : public minhash::MinHasher
     {
     public:
-        Structural();
-        virtual ~Structural();
+        Scalar();
+        virtual ~Scalar();
 
         virtual inline void minHash(uint64_t* input, uint64_t* output, int size) override
         {

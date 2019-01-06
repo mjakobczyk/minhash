@@ -1,7 +1,7 @@
 #include "application.h"
 #include "extension.h"
 #include "minhasher.h"
-#include "structural.h"
+#include "scalar.h"
 #include "sse2.h"
 #include "avx2.h"
 #include "testingmanager.h"

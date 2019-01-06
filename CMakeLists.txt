@@ -25,7 +25,7 @@ include_directories(
     ${MINHASH_INCLUDE_DIR}
 )
 
-set(SOURCES 
+set(SOURCES
     src/main.cpp
     src/argmanager.cpp
     src/extensiondetector.cpp
@@ -48,10 +48,8 @@ set (TESTS
     src/test/rotl.cpp
 )
 
-add_executable(program ${SOURCES} ${TESTS})
+add_executable(minhash ${SOURCES} ${TESTS})
 
-target_link_libraries(program minhash)
+target_link_libraries(minhash minhash_lib)
 
-add_dependencies(program minhash)
-
-# install(TARGETS program DESTINATION bin)
+add_dependencies(minhash minhash)
