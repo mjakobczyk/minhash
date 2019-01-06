@@ -116,7 +116,6 @@ void Application::runPerformanceTests()
 
 TestingResult Application::runSpecificPerformanceTest(TestingCase testingCase, int iterations, const std::string & resultingFileName)
 {
-    std::cout << "Running performance test... ";
     std::vector<TestingCase> tests;
     for (unsigned int i = 0; i < iterations; ++i)
     {
@@ -137,7 +136,6 @@ TestingResult Application::runSpecificPerformanceTest(TestingCase testingCase, i
 
     std::chrono::duration<double> averageExecution = sumOfExecutions / executions.size();
     TestingResult testingResult = TestingResult(testingCase, averageExecution);
-    std::cout << "Done. Execution time: " << averageExecution.count() << std::endl;
 
     FileManager * performanceFileManager = new FileManager("", resultingFileName);
     performanceFileManager->writeDataToOutputFile(executions);
