@@ -12,6 +12,7 @@ public:
     FileManager(const std::string &, const std::string &);
     std::vector<TestingCase> readDataFromInputFile();
     bool writeDataToOutputFile(std::vector<TestingResult> &);
+    bool writeDataToOutputFile(std::vector<std::chrono::duration<double>> &);
 
 private:
     std::vector<std::string> split(const std::string& s, char delimiter);

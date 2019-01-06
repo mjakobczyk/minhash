@@ -10,6 +10,7 @@ public:
     ArgManager(int, char*[]);
     std::string getInputFileName();
     std::string getOutputtFileName();
+    bool shouldRunPerformanceTests();
     
 private:
     int size;

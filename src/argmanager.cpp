@@ -53,3 +53,18 @@ std::string ArgManager::getOutputtFileName()
 
     return "";
 }
+
+bool ArgManager::shouldRunPerformanceTests()
+{
+        for (unsigned int i = 1; i < this->size; ++i)
+    {
+        std::string arg = std::string(this->arguments[i]);
+
+        if (arg == "-p")
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
