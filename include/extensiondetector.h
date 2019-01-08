@@ -22,7 +22,11 @@ enum Extension
 class ExtensionDetector
 {
 public:
+    // Checks extensions supported by processor.
+    // Returns vector containing list of them.
     std::vector<Extension> checkAvailableExtensions();
+
+    // Runs algorithm performing decision for choosing extension.
     Extension chooseExtension();
 
 private:

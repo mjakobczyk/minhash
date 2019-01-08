@@ -4,14 +4,27 @@
 
 namespace minhash
 {
+    /**
+     * MinHasher is an abstract class which decribes the way that MinHash
+     * should be count.
+     **/
     class MinHasher
     {
     public:
         MinHasher();
+        // Constructor that takesa as parameters k parameter used to describing
+        // k-mer inside the algorithm and amount of elements that should be passed
+        // in a single method call.
         MinHasher(int, int);
         virtual ~MinHasher();
         
+        // Method used for counting MinHash values. Parameters are: pointer to the
+        // input array (containing values), pointer to the output values (where
+        // resulting values should be stored) and size of both arrays (that has
+        // to be the same).
         virtual void minHash(uint64_t*&, uint64_t*&, int) = 0;
+
+        // Gets amount of elements that can be count in a single iteration of the loop.
         int getElementsInOneCall();
 
     protected:

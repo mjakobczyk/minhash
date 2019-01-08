@@ -5,16 +5,19 @@
 #define __STDC_FORMAT_MACROS
 #include <inttypes.h>
 
-#define DEBUG 0
-
 namespace minhash
 {
+    /**
+     * Scalar is a default implementation of MinHash algoritm.
+     * This implementation does not benefit from SIMD instructions.
+     **/
     class Scalar : public minhash::MinHasher
     {
     public:
         Scalar();
         virtual ~Scalar();
 
+        // Iterates through arrays to count MinHash for every element.
         virtual inline void minHash(uint64_t*& input, uint64_t*& output, int size) override
         {
             for (unsigned int i = 0; i < size; i += this->getElementsInOneCall())
@@ -24,6 +27,7 @@ namespace minhash
         }
 
     private:
+        // Performs counting MinHash using scalar data types and instructions.
         void inline countPack(uint64_t* input, uint64_t* output, int offset)
         {
             uint64_t x = input[offset];
@@ -49,6 +53,7 @@ namespace minhash
             output[offset] = h1 ^ h2;
         }
 
+        // Rotates argument using shift and XOR operations.
         uint64_t inline fmix64(uint64_t k)
         {
             k ^= k >> 33;
@@ -60,6 +65,7 @@ namespace minhash
             return k;
         }
 
+        // Rotates argument using shift and OR operations.
         uint64_t rotl64(uint64_t x, int32_t offset)
         {
             return (x << offset) | (x >> (64 - offset));

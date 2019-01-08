@@ -43,11 +43,11 @@ Second, run CMake with a compiler that you like. On Windows the default compiler
 
 ### Windows 10
 
-```cd build/; cmake ../ . -G "MinGW Makefiles" .; make;```
+```cd build/; cmake ../. -G "MinGW Makefiles" .; make;```
 
 ### MacOS
 
-```cd build/; cmake ../ .; make;```
+```cd build/; cmake ../.; make;```
 
 Finally, run the application using generated target file:
 

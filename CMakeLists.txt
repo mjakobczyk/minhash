@@ -45,5 +45,3 @@ set (TESTS
 add_executable(program ${SOURCES} ${TESTS})
 
 target_link_libraries(program minhash_lib)
-
-# add_dependencies(program minhash)
