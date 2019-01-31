@@ -7,12 +7,16 @@
 
 namespace minhash
 {
+    /**
+     * SSE2 provides MinHash implementation for AVX2 SIMD extension.
+     **/
     class SSE2 : public minhash::MinHasher
     {
     public:
         SSE2();
         virtual ~SSE2();
 
+        // Iterates through arrays to count MinHash for every element.
         virtual inline void minHash(uint64_t*& input, uint64_t*& output, int size) override
         {
             for (unsigned int i = 0; i < size; i += this->getElementsInOneCall())
@@ -22,6 +26,7 @@ namespace minhash
         }
 
     private:
+        // Performs counting MinHash using SSE2 extension data types and instructions.
         void inline countPack(uint64_t* input, uint64_t* output, int offset)
         {
             __m128i h, h1, h2, h3;
@@ -60,6 +65,7 @@ namespace minhash
             _mm_store_si128((__m128i*)&output[offset], h3);
         }
 
+        // Rotates argument using shift and XOR operations.
         __m128i inline fmix64(__m128i x)
         {
             __m128i t1;
@@ -89,11 +95,13 @@ namespace minhash
             return x;
         }
 
+        // Rotates argument using shift and OR operations.
        __m128i inline rotl64(__m128i x, int32_t offset)
         {
             return _mm_or_si128( _mm_slli_epi64(x, offset), _mm_srli_epi64(x, 64 - offset));
         }
 
+        // Multiplies two 128-bit values.
         __m128i inline multiply64Bit(__m128i a, __m128i b)
         {
             __m128i bswap   = _mm_shuffle_epi32(b,0xB1);           // b0H,b0L,b1H,b1L (swap H<->L)
@@ -106,6 +114,7 @@ namespace minhash
             return  prod;
         }
 
+        // Prints 128-bit value.
         void printValue(__m128i var);
     };
 };

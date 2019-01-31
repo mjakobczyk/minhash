@@ -12,12 +12,13 @@ enum OSType
 	UNKNOWN
 };
 
-/*
- OSDetector checks operating system that application runs on.
-*/
+/**
+ * OSDetector checks operating system that application runs on.
+ **/
 class OSDetector
 {
 public:
+	// Returns type of the operating system that application runs on.
 	OSType checkOS();
 };
 

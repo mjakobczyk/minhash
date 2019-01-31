@@ -4,10 +4,14 @@
 
 namespace minhash
 {
+    /**
+     * Extension defines the amount of counts that can be count in a single
+     * iteration using specific extension.
+     **/
     class Extension
     {
     public:
-        virtual ~Extension() {}
+        virtual ~Extension() {};
         
         void setElementsInSingleVariable(const int);
         int getElementsInSingleVariable();

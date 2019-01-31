@@ -44,6 +44,15 @@ void Application::run()
         return;
     }
 
+    if (this->argManager->shouldShowHelp())
+    {
+        std::cout << "> MinHash help <" << std::endl;
+        std::cout << "(no parameters) - default tests" << std::endl;
+        std::cout << "-h - shows help" << std::endl;
+        std::cout << "-t - runs MinHash library tests" << std::endl;
+        std::cout << "-p - runs MinHash performance tests" << std::endl;
+    }
+
     if (this->argManager->shouldRunUnitTests())
     {
         TestAllAddImpl();
@@ -191,8 +200,7 @@ std::string Application::getStringFromExtension(Extension extension)
 void Application::showTestingResultSummary(TestingResult testingResult)
 {
     std::cout << this->getStringFromExtension(testingResult.getTestingCase().getExtension()) << "\t" 
-              <<  testingResult.getTestingCase().getArraySize()
-              << "  " << testingResult.getExecutionTime().count() << "s" << std::endl;
+              <<  testingResult.getTestingCase().getArraySize() << "  " << testingResult.getExecutionTime().count() << "s" << std::endl;
 }
 
 void Application::showAllTestingResultsSummary(std::vector<TestingResult> & results)

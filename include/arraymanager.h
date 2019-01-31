@@ -8,12 +8,20 @@
 class ArrayManager
 {
 public:
+    // Constructor with an argument as array length.
     ArrayManager(int);
+
+    // Constructor with an argument as another ArrayManager.
     ArrayManager(ArrayManager&);
     ~ArrayManager();
     
+    // Returns input array filled with random uint64_t values.
     uint64_t *& getInputArray();
+
+    // Returns empty output array.
     uint64_t *& getOutputArray();
+
+    // Gets size of the arrays which are always the same.
     unsigned int getSize();
 
 private:

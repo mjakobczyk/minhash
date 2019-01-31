@@ -6,15 +6,24 @@
 #include "extensionmanager.h"
 #include "minhash.h"
 
+/**
+ * TestingManager performs tests in application.
+ **/
 class TestingManager
 {
 public:
+    // Default constructor of the application.
     TestingManager();
     ~TestingManager();
+
+    // Runs all tests defined in passed vector of testing cases. 
     void runAllTests(std::vector<TestingCase>&);
+
+    // Returns vector containg results of defined testing cases.
     std::vector<TestingResult> & getTestingResults();
 
 private:
+    // Run single testing case and returns its results.
     TestingResult runSingleTest(TestingCase);
 
 private:

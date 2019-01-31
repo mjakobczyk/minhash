@@ -75,7 +75,22 @@ bool ArgManager::shouldRunUnitTests()
     {
         std::string arg = std::string(this->arguments[i]);
 
-        if (arg == "-test")
+        if (arg == "-t")
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool ArgManager::shouldShowHelp()
+{
+        for (unsigned int i = 1; i < this->size; ++i)
+    {
+        std::string arg = std::string(this->arguments[i]);
+
+        if (arg == "-h")
         {
             return true;
         }

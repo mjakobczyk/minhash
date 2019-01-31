@@ -138,7 +138,34 @@ int FileManager::getSize(const std::string & word)
 {
 	if (this->isNumber(word))
 	{
-		return std::stoi(word);
+		std::vector<int> digits;
+		for( char c : word )
+		{
+			if (std::isdigit(c)) 
+			{
+				digits.push_back( c - '0' ) ;
+			}
+			else
+			{
+				return -1;
+			}
+		}
+
+		if (digits.size() > 9)
+		{
+			return -1;
+		}
+		else
+		{
+			int number = std::stoi(word);
+
+			if (number > 200000000)
+			{
+				return -1;
+			}
+
+			return number;
+		}
 	}
 
 	return -1;
